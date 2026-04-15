@@ -13,6 +13,7 @@ The **primary** _intended_ use is with ee_conio_macro.
 use ee_conio_macro::cprintln;
 cprintln!("~[c227 C0]Hello, ~[c51]World~[c196]!");
 ```
+![screenshot](screenshots/hello_world.png?raw=true "Screenshot")
 
 # Documentation
 [ee-conio-macro](https://docs.rs/ee-conio-macro)<br/>
