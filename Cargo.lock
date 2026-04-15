@@ -34,8 +34,9 @@ checksum = "64fa3c856b712db6612c019f14756e64e4bcea13337a6b33b696333a9eaa2d06"
 
 [[package]]
 name = "ee-conio"
-version = "0.0.1-alpha"
+version = "0.0.2-alpha"
 dependencies = [
+ "ee-conio-macro",
  "enterpolation",
  "ordered-float",
  "palette",
@@ -45,7 +46,7 @@ dependencies = [
 
 [[package]]
 name = "ee-conio-macro"
-version = "0.0.1-alpha"
+version = "0.0.2-alpha"
 dependencies = [
  "ee-conio",
  "proc-macro2",

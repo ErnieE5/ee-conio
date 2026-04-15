@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio"
-version = "0.0.1-alpha"
+version = "0.0.2-alpha"
 description="ANSI escape sequence helpers (run/compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["ANSI", "terminal"]
 categories = ["command-line-utilities"]
 include = ["/src",
-#"/examples",
+"/examples",
 "/tests"]
 
 [lints.rust]
@@ -22,5 +22,5 @@ regex-macro = "0.3.0"
 enterpolation = "0.3.0"
 ordered-float = "5.3.0"
 palette = "0.7.6"
-#ee-conio-macro = { version="0.0.1-alpha", path = "../ee-conio-macro"  }
+ee-conio-macro = { version="0.0.2-alpha", path = "../ee-conio-macro"  }
 
