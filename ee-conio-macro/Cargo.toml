@@ -20,3 +20,9 @@ ee-conio = { path="../ee-conio", version="0.0.2-alpha" }
 syn = "2.0"
 proc-macro2 = "1.0.106"
 rustc-literal-escaper = "0.0.7"
+
+[dev-dependencies]
+enterpolation = "0.3.0"
+ordered-float = "5.3.0"
+palette = "0.7.6"
+

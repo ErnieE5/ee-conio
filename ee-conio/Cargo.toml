@@ -18,9 +18,4 @@ unsafe_code = "forbid"
 regex = "1.12.3"
 regex-macro = "0.3.0"
 
-[dev-dependencies]
-enterpolation = "0.3.0"
-ordered-float = "5.3.0"
-palette = "0.7.6"
-ee-conio-macro = { path = "../ee-conio-macro", version="0.0.2-alpha"  }
 
