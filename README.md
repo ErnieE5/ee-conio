@@ -7,6 +7,13 @@
 Simple tools to allow more human readable encodings of [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
 in [Rust](https://rust-lang.org/) source code.
 
+# Workspace
+This is a cargo workspace that contains the two parts of the "ee-conio system" published on [crates.io](https:://crates.io).<br/> 
+
+[ee-conio](ee-conio) is the "not proc_macro" part. <br/>
+[ee-conio-macro](ee-conio-macro) is the compile time proc_macro routines.
+
+
 # Overview
 The **primary** _intended_ use is with ee_conio_macro. 
 ```Rust
