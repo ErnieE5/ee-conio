@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio"
-version = "0.0.2-alpha"
+version = "0.0.3-alpha"
 description="ANSI escape sequence helpers (run/compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
@@ -17,5 +17,3 @@ unsafe_code = "forbid"
 [dependencies]
 regex = "1.12.3"
 regex-macro = "0.3.0"
-
-
