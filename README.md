@@ -11,7 +11,7 @@ This is a cargo workspace that contains the two parts of the "ee-conio system" p
 [ee-conio-macro](ee-conio-macro) is the compile time proc_macro routines.<br/>
 [ee-conio](ee-conio) is the "not proc_macro" part. <br/>
 
-This README.md is about building/using the crates locally.
+This README.md is(WIP: will be) about building/using the crates locally.
 
 # Overview
 The **primary** _intended_ use is with ee_conio_macro.
