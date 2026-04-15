@@ -1,7 +1,6 @@
-| <!-- -->    | <!-- -->    |
+| ee-conio-macro | [![Crates.io](https://img.shields.io/crates/v/ee-conio-macro.svg)](https://crates.io/crates/ee-conio-macro/) [![Docs.rs](https://docs.rs/ee-conio-macro/badge.svg)](https://docs.rs/ee-conio-macro) |
 |-------------|-------------|
 | ee-conio | [![Crates.io](https://img.shields.io/crates/v/ee-conio.svg)](https://crates.io/crates/ee-conio/) [![Docs.rs](https://docs.rs/ee-conio/badge.svg)](https://docs.rs/ee-conio)|
-| ee-conio-macro | [![Crates.io](https://img.shields.io/crates/v/ee-conio-macro.svg)](https://crates.io/crates/ee-conio-macro/) [![Docs.rs](https://docs.rs/ee-conio-macro/badge.svg)](https://docs.rs/ee-conio-macro) |
 
 Simple tools to allow more human readable encodings of [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
 in [Rust](https://rust-lang.org/) source code.
@@ -9,8 +8,8 @@ in [Rust](https://rust-lang.org/) source code.
 # ee-conio Workspace
 This is a cargo workspace that contains the two parts of the "ee-conio system" published on [crates.io](https:://crates.io).<br/>
 
+[ee-conio-macro](ee-conio-macro) is the compile time proc_macro routines.<br/>
 [ee-conio](ee-conio) is the "not proc_macro" part. <br/>
-[ee-conio-macro](ee-conio-macro) is the compile time proc_macro routines.
 
 This README.md is about building/using the crates locally.
 
