@@ -53,7 +53,7 @@ pub fn match_name_iter(name: &str) -> impl Iterator<Item = &'static (&'static st
 }
 
 #[rustfmt::skip]
-///```
+///```text
 /// use ee_conio_macro::named_color_iter;
 /// for (name, code) in named_color_iter()
 /// {

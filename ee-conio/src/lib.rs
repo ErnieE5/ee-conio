@@ -7,7 +7,7 @@ other is "compile time."
 
 # Quick Start
 Use the macros: [ee_conio_macro](../ee_conio_macro/index.html)
- ```
+ ```text
 use ee_conio_macro::cprintln;
 cprintln!("~[white BLUE]White text on a blue background.");
  ```
@@ -23,7 +23,7 @@ This library makes adding escapes to output easier to reconcile[^sub].  The
 examples above can be automatically inserted into static literals with this
 library. Each call with the `cprintln!` macro below will emit a line of text
 in red[^modern].
-```rust
+```text
 use ee_conio_macro::cprintln;
 cprintln!("~[#'Vivid Red']This is Vivid Red.");
 cprintln!("~[#F70D1A     ]This is also Vivid Red.");
