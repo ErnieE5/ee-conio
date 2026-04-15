@@ -1,0 +1,7 @@
+[workspace]
+members=[
+    "ee-conio",
+    "ee-conio-macro"
+]
+
+resolver="3"
