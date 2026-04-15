@@ -40,7 +40,13 @@ Available examples:
 ```Bash
 cargo run --example colors256
 ```
-![screenshot](screenshots/example_colors256.png?raw=true "Screenshot")
+![screenshot](screenshots/example_colors256a.png?raw=true "Screenshot")
+
+```Bash
+cargo run --example colors256 --bg --pad 
+```
+![screenshot](screenshots/example_colors256b.png?raw=true "Screenshot")
+
 
 ```Bash
 cargo run --example shenanigans
