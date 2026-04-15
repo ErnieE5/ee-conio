@@ -7,9 +7,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 keywords = ["ANSI", "terminal"]
 categories = ["command-line-utilities"]
-include = ["/src",
-"/examples",
-"/tests"]
+include = ["/src","/tests"]
 
 [lints.rust]
 unsafe_code = "forbid"
