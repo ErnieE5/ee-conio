@@ -10,6 +10,7 @@ in [Rust](https://rust-lang.org/) source code.
 # Workspace
 This is a cargo workspace that contains the three parts of the "ee-conio" system published on [crates.io].<br/>
 
+
 ```text
 ee-conio 
 ├── ee-conio-engine
@@ -21,23 +22,17 @@ ee-conio
 [ee-conio-engine] Shared implementation for compile/run time use<br/>
 [ee-conio-macro] is the compile time proc_macro routines<br/>
 
-__This README.md is for building/using the crates locally.__
-
-# Overview 
-ee-conio exposes the _general use_ API. 
-
-```bash
-cargo add ee-conio
-```
-```rust
-use ee_conio::cprintln;
-cprintln!("~[c227 C0]Hello, ~[c51]World~[c196]!");
-```
-![screenshot](screenshots/hello_world.png?raw=true "Screenshot")
-
 # Building/Using Locally
+```bash
+$ cargo build --all --all-targets --examples
+```
 
-##### WIP
+Cargo.toml (Library is a sibling to your project):
+```toml
+[dependencies]
+ee-conio = { path="../ee-conio/ee-conio" }
+```
+
 
 # Examples
 
@@ -59,23 +54,23 @@ Available examples:
 ```
 
 ```Bash
-cargo run --example colors256
+$ cargo run --example colors256
 ```
 ![screenshot](screenshots/example_colors256a.png?raw=true "Screenshot")
 
 ```Bash
-cargo run --example colors256 --bg --pad
+$ cargo run --example colors256 --bg --pad
 ```
 ![screenshot](screenshots/example_colors256b.png?raw=true "Screenshot")
 
 
 ```Bash
-cargo run --example shenanigans
+$ cargo run --example shenanigans
 ```
 ![screenshot](screenshots/example_shenanigans.png?raw=true "Screenshot")
 
 ```Bash
-cargo run --example names_match -- neon
+$ cargo run --example names_match -- neon
 ```
 ![screenshot](screenshots/example_names_match_neon.png?raw=true "Screenshot")
 
