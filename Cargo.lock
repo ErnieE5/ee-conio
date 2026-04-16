@@ -36,6 +36,16 @@ checksum = "64fa3c856b712db6612c019f14756e64e4bcea13337a6b33b696333a9eaa2d06"
 name = "ee-conio"
 version = "0.1.0-alpha.1"
 dependencies = [
+ "ee-conio-engine",
+ "enterpolation",
+ "ordered-float",
+ "palette",
+]
+
+[[package]]
+name = "ee-conio-engine"
+version = "0.1.0-alpha.1"
+dependencies = [
  "regex",
  "regex-macro",
 ]
@@ -44,10 +54,7 @@ dependencies = [
 name = "ee-conio-macro"
 version = "0.1.0-alpha.1"
 dependencies = [
- "ee-conio",
- "enterpolation",
- "ordered-float",
- "palette",
+ "ee-conio-engine",
  "proc-macro2",
  "rustc-literal-escaper",
  "syn",

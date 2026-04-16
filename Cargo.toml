@@ -1,6 +1,6 @@
 [workspace]
 members=[
-    "ee-conio",
+    "ee-conio", "ee-conio-engine",
     "ee-conio-macro"
 ]
 

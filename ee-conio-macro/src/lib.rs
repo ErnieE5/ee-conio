@@ -6,11 +6,40 @@ All of the `c` prefixed macros modify only `"String Literals"` within the body o
 
 # Quick Start
 
-```
+```rust
 use ee_conio_macro::cprintln;
 
 cprintln!("~[c51]Hello~[x0], ~[c227]World~[c197]!");
 ```
+
+# Why?
+`\u{1b}[38;2;247;13;26m`[^oof] is one way to change the foreground to
+[`Vivid Red`](https://en.wikipedia.org/wiki/List_of_colors_(alphabetical)).
+Other more compact red variants such as `\x1b[38;5;196m` or `\x1b[1m`
+are hard to decipher as well[^sub].
+
+This library makes adding escapes to output easier to reconcile[^sub].  The
+examples above can be automatically inserted into static literals with this
+library. Each call with the `cprintln!` macro below will emit a line of text
+in red[^modern].
+```rust
+use ee_conio_macro::cprintln;
+cprintln!("~[#'Vivid Red']This is Vivid Red.");
+cprintln!("~[#F70D1A     ]This is also Vivid Red.");
+cprintln!("~[c196        ]8bit red color.");
+cprintln!("~[x1          ]4bit red color.");
+```
+During compile, this gets expanded to:
+```rust
+println!("\u{1b}[38;2;247;13;26mThis is Vivid Red.\u{1b}[0m");
+println!("\u{1b}[38;2;247;13;26mThis is also Vivid Red.\u{1b}[0m");
+println!("\u{1b}[38;5;196m8bit red color.\u{1b}[0m");
+println!("\u{1b}[1m4bit red color.\u{1b}[0m");
+```
+This library isn't for you if the "mess" above is something you enjoy seeing or
+typing.
+
+
 
 
 `~[]` is the marker for content.  When this pattern is found, it
@@ -43,7 +72,7 @@ assert_eq!( y, z );
 ```
 
 The following code WILL NOT compile:
-```text
+```{rust, eval=FALSE}
 let q = ctransform!("~[{}]","");
 
 error: '{}' does not match known keywords, names, or mnemonics
@@ -162,7 +191,6 @@ pub fn cwriteln(input: TokenStream) -> TokenStream {
 }
 
 /// ```
-/// use std::io::{self, Write};
 /// use ee_conio_macro::{cformat,ctransform};
 ///
 /// ctransform!(

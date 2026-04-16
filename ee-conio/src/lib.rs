@@ -6,39 +6,11 @@ This library is in two parts. This part is mostly the "run time" module. The
 other is "compile time."
 
 # Quick Start
-Use the macros: [ee_conio_macro](../ee_conio_macro/index.html)
- ```text
-use ee_conio_macro::cprintln;
-cprintln!("~[white BLUE]White text on a blue background.");
- ```
+[![Docs.rs](https://docs.rs/ee-conio-macro/badge.svg)](https://docs.rs/ee-conio-macro)
+
+See  [ee_conio_macro](ee-conio-macro#quick-start)
 
 
-# Why?
-`\u{1b}[38;2;247;13;26m`[^oof] is one way to change the foreground to
-[`Vivid Red`](https://en.wikipedia.org/wiki/List_of_colors_(alphabetical)).
-Other more compact red variants such as `\x1b[38;5;196m` or `\x1b[1m`
-are hard to decipher as well[^sub].
-
-This library makes adding escapes to output easier to reconcile[^sub].  The
-examples above can be automatically inserted into static literals with this
-library. Each call with the `cprintln!` macro below will emit a line of text
-in red[^modern].
-```text
-use ee_conio_macro::cprintln;
-cprintln!("~[#'Vivid Red']This is Vivid Red.");
-cprintln!("~[#F70D1A     ]This is also Vivid Red.");
-cprintln!("~[c196        ]8bit red color.");
-cprintln!("~[x1          ]4bit red color.");
-```
-During compile, this gets expanded to:
-```rust
-println!("\u{1b}[38;2;247;13;26mThis is Vivid Red.\u{1b}[0m");
-println!("\u{1b}[38;2;247;13;26mThis is also Vivid Red.\u{1b}[0m");
-println!("\u{1b}[38;5;196m8bit red color.\u{1b}[0m");
-println!("\u{1b}[1m4bit red color.\u{1b}[0m");
-```
-This library isn't for you if the "mess" above is something you enjoy seeing or
-typing.
 
 # Macro/Function escape primitives.
 The macros/functions supporting sequences in [ee_conio] are thin wrappers
@@ -110,7 +82,7 @@ pub use crate::{
         bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb,
         find_replacement_patterns, sgr_code, transform_all, transform_one,
     },
-    // macros::{ esc!,csi!,sgr! };
+
     helpers::r_g_b_from_string,
 
     keywords::get_keyword,
