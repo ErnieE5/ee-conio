@@ -1,4 +1,3 @@
-
 #[test]
 fn compiled_macro_rules() {
     use ee_conio::{bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr};
@@ -28,7 +27,6 @@ fn runtime_rules() {
     assert_eq!("\x1b[38;2;32;229;32m", fg_color_rgb(32, 0xe5, 32));
     assert_eq!("\x1b[48;2;32;229;32m", bg_color_rgb(32, 0xe5, 0x20));
 }
-
 
 #[test]
 fn named() {
