@@ -3,7 +3,7 @@ proc-macro=true
 
 [package]
 name = "ee-conio-macro"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 description="ANSI escape sequence helpers (compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
@@ -16,7 +16,7 @@ include = ["/src", "/tests"]
 unsafe_code = "forbid"
 
 [dependencies]
-ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.1" }
+ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.2" }
 syn = "2.0"
 proc-macro2 = "1.0.106"
 rustc-literal-escaper = "0.0.7"

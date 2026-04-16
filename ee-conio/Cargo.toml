@@ -13,8 +13,8 @@ include = ["/src","/tests", "/examples"]
 unsafe_code = "forbid"
 
 [dependencies]
-ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.1" }
-ee-conio-macro  = { path="../ee-conio-macro",  version="0.1.0-alpha.1" }
+ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.2" }
+ee-conio-macro  = { path="../ee-conio-macro",  version="0.1.0-alpha.2" }
 embed-doc-image = "0.1.4"
 
 
