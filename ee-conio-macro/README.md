@@ -4,7 +4,7 @@
 Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape]
 in [Rust][rust] source code.
 
-This library implements proc_macro's for ee-conio.
+This library implements proc_macro's for [ee-conio](../ee-conio).
 
 It _may_ be used directly, but that is not the intent. 
 
