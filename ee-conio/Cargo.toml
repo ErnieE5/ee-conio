@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 description="ANSI escape sequence helpers (run/compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
