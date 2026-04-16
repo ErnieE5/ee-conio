@@ -1,9 +1,8 @@
 mod common;
 use common::*;
 
-use ee_conio::{bg_color_rgb, named_color_iter};
-
-use ee_conio_macro::cprintln;
+use ee_conio::{bg_color_rgb, cprintln};
+use ee_conio_engine::named_color_iter;
 
 #[rustfmt::skip]
 fn main() {

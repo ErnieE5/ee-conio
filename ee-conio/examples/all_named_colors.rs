@@ -1,9 +1,7 @@
 mod common;
 use common::*;
 
-use ee_conio::{bg_color_rgb, fg_color_rgb};
-
-use ee_conio_macro::cprintln;
+use ee_conio::{bg_color_rgb, cprintln, fg_color_rgb};
 
 fn usage() {
     cprintln!("\n\n~[c255]arg is optional ~[c7]: ~[c227]fg~[c7]|~[c227]bg\n\nTry:\n");

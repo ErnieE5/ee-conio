@@ -1,6 +1,4 @@
-use ee_conio::{fg_256, fg_color_256, sgr, sgr_code};
-
-use ee_conio_macro::cprintln;
+use ee_conio::{cprintln, fg_256, fg_color_256, sgr, sgr_code};
 
 /// Adding a little spice using ANSI 8 bit color mode escapes
 fn main() {

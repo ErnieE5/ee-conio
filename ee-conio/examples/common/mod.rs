@@ -11,7 +11,7 @@ pub fn get_named_color_map() -> BTreeMap<Color, (String, String)> {
     //! gradient when enumerated in order.
     let mut ncm = BTreeMap::<Color, (String, String)>::new();
 
-    for (name, code) in ee_conio::named_color_iter() {
+    for (name, code) in ee_conio_engine::named_color_iter() {
         ncm.insert(
             Color::from_str(code).expect("invalid hex string"),
             (code.to_string(), name.to_string()),

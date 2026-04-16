@@ -64,8 +64,8 @@ fn transform1() {
 
 #[test]
 fn transform2() {
-    use ee_conio::{bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr};
-    use ee_conio_macro::{ctransform};
+    use ee_conio_engine::{bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr};
+    use ee_conio_macro::ctransform;
 
     ctransform!(
         let a = "~[c227]";

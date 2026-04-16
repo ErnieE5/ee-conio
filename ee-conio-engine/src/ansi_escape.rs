@@ -178,25 +178,22 @@ static RE_TRANS: LazyLock<RemapItem> = LazyLock::new(|| {
 
     // All of the RE patterns expect the patters to be isolated.
 
-    // forground 256 color escapes
+    // forground/background 256 color escapes
     m.push((regex!("^(?<opr>c[:]?|fore[:])(?<dig>.+)$"), ansi_c));
-    // background 256 color escapes
     m.push((regex!("^(?<opr>C[:]?|back[:])(?<dig>.+)$"), ansi_C));
+
     // SGR sequences
     m.push((regex!("^(?<opr>x[:]?|(?i:SGR)[:])(?<dig>.+)$"), ansi_x));
+
+    // CSI control  \x1b[38;2;255;255;255m
+    m.push((
+        regex!("^(?<opr>X[:]?|(?i:CSI)[:])(?<dig>[0-9;]{0,20}[ABCDEFGJHKSTfhilmnrsu])$"),
+        ansi_X,
+    ));
 
     // Named RGB colors #'foreground' $'background'
     m.push((regex!("^(?<opr>[#]')(?<name>.*)'$"), ansi_s));
     m.push((regex!("^(?<opr>[$]')(?<name>.*)'$"), ansi_S));
-    // m.push( (regex!("^(?<opr>[@]')(?<name>.*)'$"),                  ansi_M ));
-
-    // CSI control
-    m.push((
-        regex!(
-            "^(?<opr>X[:]?|(?i:CSI)[:])(?<dig>[0-9;]{0,20}[ABCDEFGJKSThilmnrsu]|[0-9;]{1,20}[Hf])$"
-        ),
-        ansi_X,
-    ));
 
     // foreground and background RGB colors #RRGGBB $RRGGBB [[:xdigit:]]
     m.push((regex!("^(?<rgb>[#].{6,6})$"), crack_ansi_fg_rgb));

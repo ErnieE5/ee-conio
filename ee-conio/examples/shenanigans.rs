@@ -1,12 +1,10 @@
 mod common;
 use common::*;
 
-use ee_conio::{bg_color_rgb, sgr};
-
-use ee_conio_macro::cprintln;
+use ee_conio::{bg_color_rgb, cprintln, sgr};
 
 pub fn main() {
-    cprintln!("~[clear]");
+    cprintln!("~[cls]");
     header!("shenanigans");
 
     let o = format!("{:^66}", "Text with a gradient background");

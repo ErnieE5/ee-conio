@@ -1,14 +1,10 @@
+#![doc(html_playground_url = "https://play.rust-lang.org/")]
 /*!
 Library for "more intuitive"[^sub] [ANSI escape sequences][ansi] in
 console output.
 
 This library is in two parts. This part is mostly the "run time" module. The
 other is "compile time."
-
-# Quick Start
-[![Docs.rs](https://docs.rs/ee-conio-macro/badge.svg)](https://docs.rs/ee-conio-macro)
-
-See  [ee_conio_macro](ee-conio-macro#quick-start)
 
 
 
@@ -69,25 +65,10 @@ a useful keyword is:
 [^modern]: ANSI/VT100 escapes have been around for a long time. Support for many color and cursor options is 'new' to many "modern" terminals.
 [^oof]: Do I really need to type more?
 */
-#![doc(html_playground_url = "https://play.rust-lang.org/")]
 
-pub mod ansi_escape;
-pub mod helpers;
-pub mod keywords;
-pub mod macros;
-pub mod named_colors;
-
-pub use crate::{
-    ansi_escape::{
-        bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb,
-        find_replacement_patterns, sgr_code, transform_all, transform_one,
-    },
-
-    helpers::r_g_b_from_string,
-
-    keywords::get_keyword,
-
-    named_colors::{
-        get_named_background_escape, get_named_foreground_escape, match_name_iter, named_color_iter,
-    },
+pub use ee_conio_engine::{
+    ansi_escape::{bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb, sgr_code},
+    bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr,
 };
+
+pub use ::ee_conio_macro::{cformat, cprint, cprintln, ctransform, cwrite, cwriteln};

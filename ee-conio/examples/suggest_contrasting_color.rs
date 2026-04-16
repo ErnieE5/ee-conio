@@ -1,17 +1,14 @@
 mod common;
 use common::*;
 
-use ee_conio::{bg_color_rgb, fg_color_rgb, named_color_iter};
-
-use ee_conio_macro::cprintln;
+use ee_conio::{bg_color_rgb, cprintln, fg_color_rgb};
+use ee_conio_engine::named_color_iter;
 
 use ordered_float::OrderedFloat;
 
 #[rustfmt::skip]
 fn usage() {
-    cprintln!(
-        "\n\n~[c255]args required~[c7]: ~[c227]fg~[c7]|~[c227]bg, ~[c51]hex value~[x0]\n\nTry:\n"
-    );
+    cprintln!("\n\n~[c255]args required~[c7]: ~[c227]fg~[c7]|~[c227]bg, ~[c51]hex value~[x0]\n\nTry:\n");
     cprintln!("cargo run --example suggest_contrasting_color -- ~[c227]bg ~[c51]ee88ee\n");
     cprintln!("cargo run --example suggest_contrasting_color -- ~[c227]fg ~[c51]4020FF\n");
 }
