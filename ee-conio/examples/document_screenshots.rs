@@ -1,6 +1,6 @@
 
 
-use ee_conio::cprintln;
+use ee_conio::{ cprintln, cprint };
 
 fn main() {
     cprintln!();
@@ -20,4 +20,9 @@ fn main() {
     println!("\u{1b}[48;5;0m\u{1b}[38;5;196m8bit red color.           \u{1b}[0m");
     println!("\u{1b}[48;5;0m\u{1b}[31m4bit red color.           \u{1b}[0m");
     println!("");
+
+    cprintln!("~[c227 C0]Bright Yellow text on a black background!");
+    cprint!(  "~[c227 C0]Bright Yellow text on a black background!~[x0]\n");
+    println!("");
+
 }

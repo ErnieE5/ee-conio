@@ -1,21 +1,21 @@
 //!
 //!
-
-#![cfg_attr(feature = "doc-images",
+#![cfg_attr(feature="doc-images",
 cfg_attr(all(),
 doc = ::embed_doc_image::embed_image!("hello_world", "../screenshots/hello_world.png"),
 doc = ::embed_doc_image::embed_image!("vivid_red", "../screenshots/vivid_red_and_friends.png"),
-
+doc = ::embed_doc_image::embed_image!("bright_yellow", "../screenshots/bright_yellow_black_bg.png"),
 ))]
 #![cfg_attr(
 not(feature = "doc-images"),
-doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 \
-           to enable."
+doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 to enable."
 )]
 //!
 /*!
-Library for "more intuitive"[^sub] [ANSI escape sequences][ansi] in
+Library for more intuitive[^sub] [ANSI escape sequences][ansi] in
 console output.
+
+__The documentation is a WIP while the library is in Alpha.__
 
 # Quick Start
 
@@ -33,9 +33,9 @@ Other more compact red variants such as `\x1b[38;5;196m` or `\x1b[31m`
 are hard to decipher as well[^sub].
 
 This library makes adding escapes to output easier to reconcile[^sub].  The
-examples above can be automatically inserted into static literals with this
-library. Each call with the `cprintln!` macro below will emit a line of text
-in red[^modern] with a black background.
+examples above can be automatically inserted into __static literals__ with this
+library. Each use of `cprintln!` macro below will emit a line of text
+in red with a black background[^modern].
 ```rust
 use ee_conio::cprintln;
 cprintln!("~[C0 #'Vivid Red']This is Vivid Red.        ");
@@ -56,21 +56,22 @@ This library isn't for you if the "mess" above is something you enjoy seeing or
 typing.
 
 
-## Verify for yourself from the ee-conio repo
-[cargo-expand ![Crates.io](https://img.shields.io/crates/v/cargo-expand.svg)](https://crates.io/crates/cargo-expand/)
+## Verify for yourself: [<img alt="github" style="vertical-align:middle" src="https://img.shields.io/badge/github-ErnieE5/ee--conio-2B60DE?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/ErnieE5/ee-conio)
+
 ```bash
-$ #cargo install cargo-expand
-$ cargo expand --example document_screenshots
+#cargo install cargo-expand
+#cargo run --example document_screenshots
+#cd ee-conio/ee-conio
+cargo expand --example document_screenshots
 ```
 
 
-# Notes
-
+# ~[]
 
 `~[]` is the marker for content.  When this pattern is found, it
 will be replaced. This is either generated content or nothing.
 
-Therefore the following code will not trigger an assert:
+Therefore the following code __will not__ trigger an assert:
 ```
 use ee_conio_macro::ctransform;
 let x = "";
@@ -82,7 +83,7 @@ assert_eq!( y, "~[ ]" );
 let z = "";
 assert_eq!( y, z );
 ```
-[ctransform!](ctransform) transforms ANY string literal inside the macro block
+[ctransform!](ctransform) transforms __ANY__ string literal inside the macro block
 leaving all other code as is.  `y` and `z` above are in the same scope after the
 macro is finished.
 
@@ -96,7 +97,7 @@ let z = "";
 assert_eq!( y, z );
 ```
 
-The following code WILL NOT compile:
+The following code __will not__ compile:
 ```{rust, eval=FALSE}
 let q = ctransform!("~[{}]","");
 
@@ -106,25 +107,29 @@ error: '{}' does not match known keywords, names, or mnemonics
 137 | let q = ctransform!("~[{}]","");
     |                        ^^
 ```
+Please note that the accurate identification of the exact location above
+currently requires a nightly build[^see].
+
+# ctransform and friends
 
 "Behind the scenes" you can think of `ctransform!` as the engine. The following
-code is functionally identical.
+code is functionally identical for the last two lines.
 ```
-use ee_conio_macro::{cprint,ctransform};
+use ee_conio::{cprint,ctransform};
 let x = "Woo!";
 ctransform!( print!("~[  ]{x}~[  ]") );
 cprint!("~[  ]{x}~[  ]");
 ```
 
-cprintln! is slightly different.  Because MOST codes are likely to be SGR
+`cprintln!` is slightly different.  Because MOST codes are likely to be SGR
 related, an SGR 0 is appended before the newline if any replacements are found.
 This "turns off" any changes before the end of the line.
 
 ```rust
-use ee_conio_macro::{cprint,cprintln};
-cprintln!("~[c227 C0]Bright Yellow text on a black background!");
-cprint!(  "~[c227 C0]Bright Yellow text on a black background!~[x0]\n");
+ee_conio::cprintln!("~[c227 C0]Bright Yellow text on a black background!");
+ee_conio::cprint!(  "~[c227 C0]Bright Yellow text on a black background!~[x0]\n");
 ```
+![bright_yellow]
 
 cprintln!<br>
 cprint!<br>
@@ -195,8 +200,9 @@ a useful keyword is:
 [24bit]:<https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit>
 [named]:<https://en.wikipedia.org/wiki/List_of_colors_(alphabetical)>
 [^sub]: This is a highly subjective statement. You may disagree.
-[^modern]: ANSI/VT100 escapes have been around for a long time. Support for many color and cursor options is 'new' to many "modern" terminals.
+[^modern]: ANSI/VT100 escapes have been around for very long time. Support for many color and cursor options is 'new' to many "modern" terminals.
 [^oof]: Do I really need to type more?
+[^see]: 4/2026 [proc-macro2::subspan](https://docs.rs/proc-macro2/latest/proc_macro2/struct.Literal.html#method.subspan)
 
 */
 
