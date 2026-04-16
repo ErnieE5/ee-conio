@@ -82,6 +82,4 @@ pub fn main() {
     cprintln!("SGR reset is sent ~[italic_on]before~[italic_off] the newline at end because of the SGR codes (italic on/off).");
     cprintln!("This line is back to normal after the reset from line above.");
     cprintln!();
-
-    cprintln!("~[c255]");
 }

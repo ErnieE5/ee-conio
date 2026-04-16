@@ -1,10 +1,143 @@
-#![doc(html_playground_url = "https://play.rust-lang.org/")]
+//!
+//!
+
+#![cfg_attr(feature = "doc-images",
+cfg_attr(all(),
+doc = ::embed_doc_image::embed_image!("hello_world", "../screenshots/hello_world.png"),
+doc = ::embed_doc_image::embed_image!("vivid_red", "../screenshots/vivid_red_and_friends.png"),
+
+))]
+#![cfg_attr(
+not(feature = "doc-images"),
+doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 \
+           to enable."
+)]
+//!
 /*!
 Library for "more intuitive"[^sub] [ANSI escape sequences][ansi] in
 console output.
 
-This library is in two parts. This part is mostly the "run time" module. The
-other is "compile time."
+# Quick Start
+
+```rust
+use ee_conio::cprintln;
+cprintln!("~[c51 C0]Hello~[c7], ~[c227]World~[c197]!");
+```
+![hello_world]
+
+
+# Why?
+`\u{1b}[38;2;247;13;26m`[^oof] is one way to change the foreground to
+[`Vivid Red`](https://en.wikipedia.org/wiki/List_of_colors_(alphabetical)).
+Other more compact red variants such as `\x1b[38;5;196m` or `\x1b[31m`
+are hard to decipher as well[^sub].
+
+This library makes adding escapes to output easier to reconcile[^sub].  The
+examples above can be automatically inserted into static literals with this
+library. Each call with the `cprintln!` macro below will emit a line of text
+in red[^modern] with a black background.
+```rust
+use ee_conio::cprintln;
+cprintln!("~[C0 #'Vivid Red']This is Vivid Red.        ");
+cprintln!("~[C0 #F70D1A     ]This is also Vivid Red.   ");
+cprintln!("~[C0 c196        ]8bit red color.           ");
+cprintln!("~[C0 x31         ]4bit red color.           ");
+```
+![vivid_red][vivid_red]
+
+During __compile__, this gets (effectively) expanded to:
+```rust
+println!("\u{1b}[48;5;0m\u{1b}[38;2;247;13;26mThis is Vivid Red.        \u{1b}[0m");
+println!("\u{1b}[48;5;0m\u{1b}[38;2;247;13;26mThis is also Vivid Red.   \u{1b}[0m");
+println!("\u{1b}[48;5;0m\u{1b}[38;5;196m8bit red color.           \u{1b}[0m");
+println!("\u{1b}[48;5;0m\u{1b}[31m4bit red color.           \u{1b}[0m");
+```
+This library isn't for you if the "mess" above is something you enjoy seeing or
+typing.
+
+
+## Verify for yourself from the ee-conio repo
+[cargo-expand ![Crates.io](https://img.shields.io/crates/v/cargo-expand.svg)](https://crates.io/crates/cargo-expand/)
+```bash
+$ #cargo install cargo-expand
+$ cargo expand --example document_screenshots
+```
+
+
+# Notes
+
+
+`~[]` is the marker for content.  When this pattern is found, it
+will be replaced. This is either generated content or nothing.
+
+Therefore the following code will not trigger an assert:
+```
+use ee_conio_macro::ctransform;
+let x = "";
+ctransform!(
+let y = "~[      ]~[]~[     ]";
+assert_eq!( x, y );
+assert_eq!( y, "~[ ]" );
+);
+let z = "";
+assert_eq!( y, z );
+```
+[ctransform!](ctransform) transforms ANY string literal inside the macro block
+leaving all other code as is.  `y` and `z` above are in the same scope after the
+macro is finished.
+
+After the macro runs this is how the code is left:
+```
+let x = "";
+let y = "";
+assert_eq!( x, y );
+assert_eq!( y, "" );
+let z = "";
+assert_eq!( y, z );
+```
+
+The following code WILL NOT compile:
+```{rust, eval=FALSE}
+let q = ctransform!("~[{}]","");
+
+error: '{}' does not match known keywords, names, or mnemonics
+   --> examples\smorgasbord.rs:137:24
+    |
+137 | let q = ctransform!("~[{}]","");
+    |                        ^^
+```
+
+"Behind the scenes" you can think of `ctransform!` as the engine. The following
+code is functionally identical.
+```
+use ee_conio_macro::{cprint,ctransform};
+let x = "Woo!";
+ctransform!( print!("~[  ]{x}~[  ]") );
+cprint!("~[  ]{x}~[  ]");
+```
+
+cprintln! is slightly different.  Because MOST codes are likely to be SGR
+related, an SGR 0 is appended before the newline if any replacements are found.
+This "turns off" any changes before the end of the line.
+
+```rust
+use ee_conio_macro::{cprint,cprintln};
+cprintln!("~[c227 C0]Bright Yellow text on a black background!");
+cprint!(  "~[c227 C0]Bright Yellow text on a black background!~[x0]\n");
+```
+
+cprintln!<br>
+cprint!<br>
+cformat!<br>
+cwrite!<br>
+cwriteln!<br>
+
+
+```rust
+use ee_conio_macro::cprintln;
+cprintln!("~[white BLUE]White text on a blue background.");
+```
+
 
 
 
@@ -64,7 +197,10 @@ a useful keyword is:
 [^sub]: This is a highly subjective statement. You may disagree.
 [^modern]: ANSI/VT100 escapes have been around for a long time. Support for many color and cursor options is 'new' to many "modern" terminals.
 [^oof]: Do I really need to type more?
+
 */
+
+
 
 pub use ee_conio_engine::{
     ansi_escape::{bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb, sgr_code},

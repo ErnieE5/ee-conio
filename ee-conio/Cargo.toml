@@ -7,7 +7,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 keywords = ["ANSI", "terminal"]
 categories = ["command-line-utilities"]
-include = ["/src","/tests"]
+include = ["/src","/tests", "/examples"]
 
 [lints.rust]
 unsafe_code = "forbid"
@@ -15,9 +15,17 @@ unsafe_code = "forbid"
 [dependencies]
 ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.1" }
 ee-conio-macro  = { path="../ee-conio-macro",  version="0.1.0-alpha.1" }
+embed-doc-image = "0.1.4"
 
 
 [dev-dependencies]
 enterpolation = "0.3.0"
 ordered-float = "5.3.0"
 palette = "0.7.6"
+
+
+[package.metadata.docs.rs]
+features = ["doc-images"]
+
+[features]
+doc-images = []

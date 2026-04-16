@@ -1,9 +1,10 @@
-/*!
-# Quick Start
-[![Docs.rs](https://docs.rs/ee-conio/badge.svg)](https://docs.rs/ee-conio)
-
-See  [ee_conio](https://docs.rs/ee-conio)
-*/
+//!
+//!
+//!# Quick Start
+//![![Docs.rs](https://docs.rs/ee-conio/badge.svg)](https://docs.rs/ee-conio)
+//!
+//!See  [ee_conio](https://docs.rs/ee-conio)
+//!
 
 pub mod ansi_escape;
 pub mod helpers;
