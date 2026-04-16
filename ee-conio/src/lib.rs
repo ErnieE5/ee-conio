@@ -1,15 +1,5 @@
 //!
 //!
-#![cfg_attr(feature="doc-images",
-cfg_attr(all(),
-doc = ::embed_doc_image::embed_image!("hello_world", "../screenshots/hello_world.png"),
-doc = ::embed_doc_image::embed_image!("vivid_red", "../screenshots/vivid_red_and_friends.png"),
-doc = ::embed_doc_image::embed_image!("bright_yellow", "../screenshots/bright_yellow_black_bg.png"),
-))]
-#![cfg_attr(
-not(feature = "doc-images"),
-doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 to enable."
-)]
 //!
 /*!
 Library for more intuitive[^sub] [ANSI escape sequences][ansi] in
@@ -23,7 +13,7 @@ __The documentation is a WIP while the library is in Alpha.__
 use ee_conio::cprintln;
 cprintln!("~[c51 C0]Hello~[c7], ~[c227]World~[c197]!");
 ```
-![hello_world]
+![hello_world](https://raw.githubusercontent.com/ErnieE5/ee-conio/refs/heads/main/screenshots/hello_world.png)
 
 
 # Why?
@@ -43,7 +33,7 @@ cprintln!("~[C0 #F70D1A     ]This is also Vivid Red.   ");
 cprintln!("~[C0 c196        ]8bit red color.           ");
 cprintln!("~[C0 x31         ]4bit red color.           ");
 ```
-![vivid_red][vivid_red]
+![vivid_red](https://raw.githubusercontent.com/ErnieE5/ee-conio/refs/heads/main/screenshots/vivid_red_and_friends.png)
 
 During __compile__, this gets (effectively) expanded to:
 ```rust
@@ -129,7 +119,7 @@ This "turns off" any changes before the end of the line.
 ee_conio::cprintln!("~[c227 C0]Bright Yellow text on a black background!");
 ee_conio::cprint!(  "~[c227 C0]Bright Yellow text on a black background!~[x0]\n");
 ```
-![bright_yellow]
+![bright_yellow](https://raw.githubusercontent.com/ErnieE5/ee-conio/refs/heads/main/screenshots/bright_yellow_black_bg.png)
 
 cprintln!<br>
 cprint!<br>
