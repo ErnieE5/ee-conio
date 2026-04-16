@@ -1,0 +1,16 @@
+[package]
+name = "ee-conio-engine"
+version = "0.1.0-alpha.1"
+edition = "2024"
+description="ANSI escape sequence helpers (engine)"
+repository = "https://github.com/ErnieE5/ee-conio"
+license = "MIT OR Apache-2.0"
+include = ["/src","/tests"]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+
+[dependencies]
+regex = "1.12.3"
+regex-macro = "0.3.0"
