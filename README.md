@@ -4,11 +4,10 @@
 | ee-conio-macro | [![Crates.io](https://img.shields.io/crates/v/ee-conio-macro.svg)](https://crates.io/crates/ee-conio-macro/) [![Docs.rs](https://docs.rs/ee-conio-macro/badge.svg)](https://docs.rs/ee-conio-macro) |
 
 
-Simple tools to allow more human readable encodings of [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
-in [Rust](https://rust-lang.org/) source code.
+Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape] in [Rust][rust] source code.
 
 # Workspace
-This is a cargo workspace that contains the three parts of the "ee-conio" system published on [crates.io].<br/>
+This is a cargo workspace that contains the three parts of the "ee-conio" system published via [crates.io].<br/>
 
 
 ```text
@@ -59,7 +58,7 @@ $ cargo run --example colors256
 ![screenshot](screenshots/example_colors256a.png?raw=true "Screenshot")
 
 ```Bash
-$ cargo run --example colors256 --bg --pad
+$ cargo run --example colors256 -- --bg --pad
 ```
 ![screenshot](screenshots/example_colors256b.png?raw=true "Screenshot")
 
@@ -79,3 +78,5 @@ $ cargo run --example names_match -- neon
 [ee-conio-engine]: /ee-conio-engine/
 [ee-conio-macro]: /ee-conio-engine/
 [crates.io]:https:://crates.io
+[wiki_escape]: https://en.wikipedia.org/wiki/ANSI_escape_code
+[rust]: https://rust-lang.org/
