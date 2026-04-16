@@ -10,7 +10,6 @@ include = ["/src","/tests"]
 [lints.rust]
 unsafe_code = "forbid"
 
-
 [dependencies]
 regex = "1.12.3"
 regex-macro = "0.3.0"
