@@ -40,7 +40,7 @@ checksum = "64fa3c856b712db6612c019f14756e64e4bcea13337a6b33b696333a9eaa2d06"
 
 [[package]]
 name = "ee-conio"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "ee-conio-engine",
  "ee-conio-macro",
@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "ee-conio-engine"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "regex",
  "regex-macro",
@@ -60,7 +60,7 @@ dependencies = [
 
 [[package]]
 name = "ee-conio-macro"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "ee-conio-engine",
  "proc-macro2",
