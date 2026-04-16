@@ -63,7 +63,7 @@ will be replaced. This is either generated content or nothing.
 
 Therefore the following code __will not__ trigger an assert:
 ```
-use ee_conio_macro::ctransform;
+use ee_conio::ctransform;
 let x = "";
 ctransform!(
 let y = "~[      ]~[]~[     ]";
@@ -129,7 +129,7 @@ cwriteln!<br>
 
 
 ```rust
-use ee_conio_macro::cprintln;
+use ee_conio::cprintln;
 cprintln!("~[white BLUE]White text on a blue background.");
 ```
 
@@ -155,7 +155,7 @@ much of an abstraction beyond that.
 
 
 Most of how I use this library is with mnemonic expansions in `cprintln!`
-(and [friends](../ee_conio_macro/index.html)).
+(and [friends](../ee_conio/index.html)).
 
 
 
@@ -195,8 +195,6 @@ a useful keyword is:
 [^see]: 4/2026 [proc-macro2::subspan](https://docs.rs/proc-macro2/latest/proc_macro2/struct.Literal.html#method.subspan)
 
 */
-
-
 
 pub use ee_conio_engine::{
     ansi_escape::{bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb, sgr_code},

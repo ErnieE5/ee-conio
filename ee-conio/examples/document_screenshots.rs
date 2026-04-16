@@ -1,7 +1,6 @@
+use ee_conio::{cprint, cprintln};
 
-
-use ee_conio::{ cprintln, cprint };
-
+#[rustfmt::skip]
 fn main() {
     cprintln!();
     cprintln!("~[c51 C0]Hello~[c7], ~[c227]World~[c197]!");
