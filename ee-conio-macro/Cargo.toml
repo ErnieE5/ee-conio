@@ -16,7 +16,7 @@ include = ["/src", "/examples"]
 unsafe_code = "forbid"
 
 [dependencies]
-ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.1" }
+ee-conio-engine = { path="../ee-conio-engine", version="0.0.1-alpha.1" }
 syn = "2.0"
 proc-macro2 = "1.0.106"
 rustc-literal-escaper = "0.0.7"
