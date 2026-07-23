@@ -36,10 +36,9 @@ fn main() {
     for (name, code) in named_color_iter() {
         let cc = Color::from_str(code).expect("invalid hex string");
 
-        match cc.meets_text_min_contrast(&primary) {
-            Some(c) => { good_matches.insert(OrderedFloat(c), (name.to_string(), cc)); }
-            None => {}
-        };
+        if let Some(c) = cc.meets_text_min_contrast(&primary) {
+            good_matches.insert(OrderedFloat(c), (name.to_string(), cc));
+        }
     }
 
     let (pr, pg, pb) = primary.into_components();

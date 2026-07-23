@@ -94,8 +94,8 @@ impl Color {
         format!("#{:X}", self.rgb)
     }
 
-    ///
-    pub fn into_components(&self) -> (u8, u8, u8) {
+    /// The sRGB channels as a `(r, g, b)` tuple.
+    pub fn into_components(self) -> (u8, u8, u8) {
         self.rgb.into_components()
     }
 
@@ -103,7 +103,7 @@ impl Color {
     //     self.hsv.hue.into_positive_degrees()
     // }
 
-    ///
+    /// WCAG 2.1 relative luminance.
     pub fn luma(&self) -> f32 {
         self.rgb32.relative_luminance().luma
     }
@@ -112,7 +112,7 @@ impl Color {
     //     self.hsv.saturation
     // }
 
-    ///
+    /// Perceptual distance from `other`, via CIEDE2000 in Lab space.
     pub fn diff(&self, other: &Self) -> f32 {
         let t1 = Lab::from_color(self.rgb32);
         let t2 = Lab::from_color(other.rgb32);
@@ -146,7 +146,7 @@ impl Color {
 
     pub fn meets_text_min_contrast(&self, other: &Self) -> Option<f32> {
         if self.rgb32.has_min_contrast_text(other.rgb32) {
-            Some(self.relative_contrast(&other))
+            Some(self.relative_contrast(other))
         } else {
             None
         }

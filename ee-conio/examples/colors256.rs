@@ -52,7 +52,7 @@ pub fn main() {
     for code in 8..16 {
         show(code, 0);
     }
-    print!("{pnl}\n");
+    println!("{pnl}");
 
     // 216 Color "cubes"
     for r in 16..22 {

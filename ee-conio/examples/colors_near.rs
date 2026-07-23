@@ -7,7 +7,7 @@ use ee_conio_parse::named_color_iter;
 #[rustfmt::skip]
 fn main() {
     let codes = std::env::args().skip(1).collect::<Vec<String>>();
-    let in_str:&str = if codes.len() > 0 { &codes[0] } else { "#000000" };
+    let in_str:&str = if !codes.is_empty() { &codes[0] } else { "#000000" };
 
     header!("Named RGB colors near {}", in_str);
 

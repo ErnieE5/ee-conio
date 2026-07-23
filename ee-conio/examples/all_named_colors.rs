@@ -8,7 +8,7 @@ fn usage() {
     cprintln!("cargo run --example all_named_colors -- ~[c227]--fg\n");
 }
 
-fn bg_mode(args: &Vec<String>) -> Option<bool> {
+fn bg_mode(args: &[String]) -> Option<bool> {
     match args.len() {
         0 => Some(true),
         1 => match args[0].as_str() {
