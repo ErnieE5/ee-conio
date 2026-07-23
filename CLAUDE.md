@@ -8,7 +8,7 @@ Note: `D:\Applications\CLAUDE.md` (the parent container) also applies; this file
 
 A cargo workspace (published on crates.io) that turns human-readable mnemonics like `~[c227 C0]` or `~[#'Vivid Red']` into [ANSI escape sequences][ansi], **at compile time** inside string literals. `cprintln!("~[c51]Hello")` expands to `println!("\u{1b}[38;5;51mHello\u{1b}[0m")` — no runtime cost, no escape soup in the source.
 
-Four crates, all at the same version (`0.1.0-alpha.2`), all `edition = "2024"`, all `unsafe_code = "forbid"`:
+Four crates, all at the same version (`0.1.0-alpha.3`), all `edition = "2024"`, all `unsafe_code = "forbid"`:
 
 ```
 ee-conio             facade — re-exports what users need; owns all examples and the user-facing docs
