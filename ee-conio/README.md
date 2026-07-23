@@ -23,7 +23,7 @@ use the code
 use ee_conio::cprintln;
 cprintln!("~[c227 C0]Hello, ~[c51]World~[c196]!");
 ```
-![screenshot](../screenshots/hello_world.png?raw=true "Screenshot")  
+![hello_world](https://raw.githubusercontent.com/ErnieE5/ee-conio/refs/heads/main/screenshots/hello_world.png)  
 
 
 [wiki_escape]: https://en.wikipedia.org/wiki/ANSI_escape_code

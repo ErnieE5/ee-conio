@@ -8,17 +8,33 @@
 Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape]
 in [Rust][rust] source code.
 
-This library contains shared code for [ee-conio](../ee-conio).
+This library holds the escape sequence primitives for [ee-conio](../ee-conio):
+the `macro_rules!` that build a sequence during compilation, and the matching
+functions that build the same sequence at run time.
 
-Most of the functionality in this library is either exposed via [ee-conio](../ee-conio) or [ee-conio-macro](../ee-conio-macro).  It _may_ be used directly, but that is not the intent. A few functions are helpful for examples and other "a-typical" use. Some of these helpers can _increase_ the linked binary size significantly. The _intended_ use of this library is mostly for compile time macros ... unless you use the supporting functions. 
+__It has no dependencies__, and it carries none of the lookup tables. The
+`~[...]` parser, the keywords and the roughly 1300 named colors live in
+[ee-conio-parse](../ee-conio-parse), which is reached only through the proc
+macros and so never lands in your binary.
+
+Everything here is re-exported by [ee-conio](../ee-conio). It _may_ be used
+directly, but that is not the intent.
+
+Note that the `~[...]` mnemonics and the `cprintln!` family are __not__ part of
+this crate — those come from [ee-conio-macro](../ee-conio-macro), via
+[ee-conio](../ee-conio).
 
 # Overview
-Simple use to show color output.
 ```Rust
-use ee_conio_engine::cprintln;
-cprintln!("~[c227 C0]Hello, ~[c51]World~[c196]!");
+use ee_conio_engine::{fg_256, fg_color_256};
+
+// The macros cook into a &'static str while compiling.
+const YELLOW: &str = fg_256!(227);
+assert_eq!("\x1b[38;5;227m", YELLOW);
+
+// The functions build the same sequence at run time.
+assert_eq!("\x1b[38;5;227m", fg_color_256(227));
 ```
-![screenshot](../screenshots/hello_world.png?raw=true "Screenshot")  
 
 [wiki_escape]: https://en.wikipedia.org/wiki/ANSI_escape_code
 [rust]: https://rust-lang.org/

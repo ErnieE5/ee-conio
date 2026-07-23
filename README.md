@@ -39,7 +39,7 @@ attributed to the whole string literal.  The API is unstable — see the
 [CHANGELOG](CHANGELOG.md).
 
 # Workspace
-This is a cargo workspace that contains the three parts of the "ee-conio" system published via [crates.io].<br/>
+This is a cargo workspace that contains the four crates of the "ee-conio" system published via [crates.io].<br/>
 
 
 ```text
@@ -76,8 +76,9 @@ ee-conio = { path="../ee-conio/ee-conio" }
 # Examples
 
 ```text
-$ cargo run --examples
+$ cargo run --example
 
+error: "--example" takes one argument.
 Available examples:
     all_named_colors
     colors256
@@ -118,6 +119,6 @@ $ cargo run --example names_match -- neon
 [ee-conio-engine]: /ee-conio-engine/
 [ee-conio-macro]: /ee-conio-macro/
 [ee-conio-parse]: /ee-conio-parse/
-[crates.io]:https:://crates.io
+[crates.io]:https://crates.io
 [wiki_escape]: https://en.wikipedia.org/wiki/ANSI_escape_code
 [rust]: https://rust-lang.org/
