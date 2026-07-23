@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio-engine"
-version = "0.1.0-alpha.5"
+version = "0.1.0-alpha.6"
 edition = "2024"
 # Edition 2024 only.  This crate has no dependencies to raise the floor.
 rust-version = "1.85"

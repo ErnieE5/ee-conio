@@ -97,12 +97,11 @@ pub fn find_replacement_patterns(source: &str) -> Result<Vsvs, ParseError> {
 
     // Scan for any ~[...] patterns
     for a in regex!("~\\[(?<b>.*?)\\]").captures_iter(source) {
-        let Some(t) = a.get(0) else {
-            todo!();
-        };
-        let Some(m) = a.get(1) else {
-            todo!();
-        };
+        // Group 0 is the whole match and 'b' is the only other group in the
+        // pattern above, so both always participate in a match that captures_
+        // iter yielded.  Neither expect is reachable.
+        let t = a.get(0).expect("group 0 is the whole ~[...] match");
+        let m = a.get(1).expect("group 'b' is the ~[...] body");
 
         match transform_all(m.as_str()) {
             Ok(x) => replace.push((t.as_str().to_string(), x)),
@@ -190,9 +189,9 @@ pub fn transform_all(value: &str) -> Result<Vec<String>, ParseError> {
     let mut items: Vec<String> = Vec::new();
 
     for a in regex!("([#$@]'[^']+'|\\S+)").captures_iter(value) {
-        let Some(m) = a.get(1) else {
-            panic!("regex expresion must contain at least one capture group");
-        };
+        // The pattern is a single group covering the whole token, so it always
+        // participates.  Not reachable.
+        let m = a.get(1).expect("token pattern has exactly one capture group");
 
         let token: &str = m.as_str();
 

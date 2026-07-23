@@ -15,7 +15,7 @@ $ cargo add ee-conio
 Add Dependency
 ```toml
 [dependencies]
-ee-conio = "0.1.0-alpha.5"
+ee-conio = "0.1.0-alpha.6"
 
 ```
 use the code

@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio-parse"
-version = "0.1.0-alpha.5"
+version = "0.1.0-alpha.6"
 edition = "2024"
 # Edition 2024; regex is lower, so the edition is the floor.
 rust-version = "1.85"
@@ -13,6 +13,6 @@ include = ["/src","/tests","/LICENSE-MIT","/LICENSE-APACHE"]
 unsafe_code = "forbid"
 
 [dependencies]
-ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.5" }
+ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.6" }
 regex = "1.12.3"
 regex-macro = "0.3.0"

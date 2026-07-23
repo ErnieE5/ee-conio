@@ -5,6 +5,15 @@ All four crates (`ee-conio`, `ee-conio-engine`, `ee-conio-macro`,
 
 This project is in __alpha__: the API may change in any release.
 
+## 0.1.0-alpha.6 — unreleased
+
+### Changed
+- Replaced two `todo!()` and a `panic!` in `ee-conio-parse` with `expect`
+  calls that state the invariant. All three sat on regex capture groups that
+  always participate in a successful match, so none was reachable, but
+  `todo!()` reads as unfinished work in a published crate. No behavior change.
+- Fixed a typo in the message that went with the `panic!` ("expresion").
+
 ## 0.1.0-alpha.5
 
 ### Added
