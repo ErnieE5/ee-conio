@@ -85,14 +85,14 @@ This project is in __alpha__: the API may change in any release.
 ## 0.1.0-alpha.3
 
 ### Changed — BREAKING for `ee-conio-engine`
-- The `~[...]` parser and the keyword and named colour tables moved out of
+- The `~[...]` parser and the keyword and named color tables moved out of
   `ee-conio-engine` into a new crate, __`ee-conio-parse`__.
 
   `ee-conio-engine` no longer exports `find_replacement_patterns`,
   `transform_all`, `transform_one`, `get_keyword`, `r_g_b_from_string`,
   `ParseError`, `get_named_foreground_escape`, `get_named_background_escape`,
   `named_color_iter` or `match_name_iter`. All of them are now in
-  `ee-conio-parse` with unchanged behaviour, so the fix is to add that crate
+  `ee-conio-parse` with unchanged behavior, so the fix is to add that crate
   and change the import path.
 
   Because the dependency specifications are caret ranges, `cargo update` can
@@ -107,7 +107,7 @@ This project is in __alpha__: the API may change in any release.
   and the parser, which put `regex` in the dependency graph of every
   downstream crate even though nothing the facade re-exports uses it.
   `ee-conio-parse` now hangs only off the proc-macro crate, so `regex` and
-  the roughly 1300 entry colour table are compile-time only and never reach a
+  the roughly 1300 entry color table are compile-time only and never reach a
   user's binary. `ee-conio-engine` has no dependencies at all.
 
 ### Added

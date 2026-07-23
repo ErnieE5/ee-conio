@@ -1,7 +1,7 @@
 [package]
 name = "ee-conio"
 version = "0.1.0-alpha.6"
-description="ANSI escape sequence helpers (run/compile time)"
+description="Readable mnemonics for ANSI escapes, expanded into string literals at compile time"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
 # Inherited from ee-conio-macro; see that manifest.

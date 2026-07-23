@@ -6,7 +6,11 @@
 |ee-conio-parse |[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio-parse.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio-parse)|[<img alt="docs.rs" src="https://docs.rs/ee-conio-parse/badge.svg" height="20">](https://docs.rs/ee-conio-parse)|
 
 
-Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape] in [Rust][rust] source code.
+Write `~[c227 C0]` instead of `\u{1b}[38;5;227m\u{1b}[48;5;0m`.
+
+`ee-conio` rewrites readable mnemonics into [ANSI escape sequences][wiki_escape]
+inside string literals __during compilation__.  What ships is a plain
+`&'static str`, so the convenience costs nothing at run time.
 
 # Overview
 ```bash

@@ -1,8 +1,13 @@
 /*!
-Library for more intuitive[^sub] [ANSI escape sequences][ansi] in
-console output.
+Write `~[c227 C0]` instead of `\u{1b}[38;5;227m\u{1b}[48;5;0m`.
 
-__The documentation is a WIP while the library is in Alpha.__
+`ee_conio` rewrites readable[^sub] mnemonics into [ANSI escape sequences][ansi]
+inside string literals __during compilation__.  What ships is a plain
+`&'static str`, so the convenience costs nothing at run time.
+
+More than color, too: cursor movement and screen clearing use the same syntax
+(`~[cls]`, `~[X5;5H]`), and [ctransform!](ctransform) rewrites literals
+anywhere, not just inside print calls.
 
 # Quick Start
 

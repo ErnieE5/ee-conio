@@ -6,7 +6,44 @@
 |ee-conio-parse |[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio-parse.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio-parse)|[<img alt="docs.rs" src="https://docs.rs/ee-conio-parse/badge.svg" height="20">](https://docs.rs/ee-conio-parse)|
 
 
-Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape] in [Rust][rust] source code.
+Write `~[c227 C0]` instead of `\u{1b}[38;5;227m\u{1b}[48;5;0m`.
+
+`ee-conio` rewrites readable mnemonics into [ANSI escape sequences][wiki_escape]
+inside string literals __during compilation__.  What ships is a plain
+`&'static str`, so the convenience costs nothing at run time.
+
+```rust
+use ee_conio::cprintln;
+cprintln!("~[c51 C0]Hello~[c7], ~[c227]World~[c197]!");
+```
+![hello_world](https://raw.githubusercontent.com/ErnieE5/ee-conio/refs/heads/main/screenshots/hello_world.png)
+
+More than color: cursor movement and screen clearing share the same syntax
+(`~[cls]`, `~[X5;5H]`), and `ctransform!` rewrites literals anywhere, not just
+inside print calls.
+
+# Workspace
+This is a cargo workspace that contains the four crates of the "ee-conio" system published via [crates.io].<br/>
+
+
+```text
+ee-conio
+├── ee-conio-engine
+└── ee-conio-macro
+    ├── ee-conio-engine
+    └── ee-conio-parse
+        └── ee-conio-engine
+```
+
+[ee-conio] General use API<br/>
+[ee-conio-engine] Escape sequence primitives for compile/run time use. No dependencies.<br/>
+[ee-conio-macro] is the compile time proc_macro routines<br/>
+[ee-conio-parse] is the `~[...]` parser and the keyword/color tables<br/>
+
+`ee-conio-parse` is reached only through the proc macros, so the `regex`
+dependency and the ~1300 entry color table are compile time only — they never
+land in your binary. Depend on it directly if you want those lookups at run
+time.
 
 # Known limitations
 
@@ -37,29 +74,6 @@ your_program | ForEach-Object {
 Exact error underlining requires a nightly compiler; on stable the error is
 attributed to the whole string literal.  The API is unstable — see the
 [CHANGELOG](CHANGELOG.md).
-
-# Workspace
-This is a cargo workspace that contains the four crates of the "ee-conio" system published via [crates.io].<br/>
-
-
-```text
-ee-conio
-├── ee-conio-engine
-└── ee-conio-macro
-    ├── ee-conio-engine
-    └── ee-conio-parse
-        └── ee-conio-engine
-```
-
-[ee-conio] General use API<br/>
-[ee-conio-engine] Escape sequence primitives for compile/run time use. No dependencies.<br/>
-[ee-conio-macro] is the compile time proc_macro routines<br/>
-[ee-conio-parse] is the `~[...]` parser and the keyword/color tables<br/>
-
-`ee-conio-parse` is reached only through the proc macros, so the `regex`
-dependency and the ~1300 entry color table are compile time only — they never
-land in your binary. Depend on it directly if you want those lookups at run
-time.
 
 # Building/Using Locally
 ```bash
