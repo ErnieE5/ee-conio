@@ -60,8 +60,8 @@ cargo expand --example document_screenshots
 
 # ~[]
 
-`~[]` is the marker for content.  When this pattern is found, it
-will be replaced. This is either generated content or nothing.
+`~[]` is the marker for content.  When this pattern is found it is replaced,
+either by generated content or by nothing at all.
 
 Therefore the following code __will not__ trigger an assert:
 ```
@@ -103,13 +103,13 @@ error: '{}' does not match known keywords, names, or mnemonics
 4 |     let q = ctransform!("~[{}]");
   |                            ^^
 ```
-Please note that the accurate identification of the exact location above
-currently requires a nightly build[^see].
+Note that pinpointing the exact location, as above, currently requires a
+nightly build[^see].
 
 # ctransform and friends
 
-"Behind the scenes" you can think of `ctransform!` as the engine. The following
-code is functionally identical for the last two lines.
+"Behind the scenes" you can think of `ctransform!` as the engine.  In the
+following code the last two lines are functionally identical.
 ```
 use ee_conio::{cprint,ctransform};
 let x = "Woo!";
@@ -160,7 +160,7 @@ much of an abstraction beyond that.
 [^f]:Functions return a String.
 
 
-Most of how I use this library is with mnemonic expansions in `cprintln!`
+I mostly use this library for mnemonic expansions in `cprintln!`
 (and [friends](crate)).
 
 
