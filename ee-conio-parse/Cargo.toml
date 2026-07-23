@@ -1,6 +1,6 @@
 [package]
 name = "ee-conio-parse"
-version = "0.1.0-alpha.3"
+version = "0.1.0-alpha.4"
 edition = "2024"
 description="ANSI escape sequence helpers (mnemonic parser and color tables)"
 repository = "https://github.com/ErnieE5/ee-conio"
@@ -11,6 +11,6 @@ include = ["/src","/tests"]
 unsafe_code = "forbid"
 
 [dependencies]
-ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.3" }
+ee-conio-engine = { path="../ee-conio-engine", version="0.1.0-alpha.4" }
 regex = "1.12.3"
 regex-macro = "0.3.0"
