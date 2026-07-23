@@ -55,6 +55,10 @@ pub static NAMED_ESCAPES: &[(&str, &str)] = &[
     ("CUB",             "XD"),
     ("CNL",             "XE"),
     ("CPL",             "XF"),
+    // DEC private modes.  Not named hide_cursor: "hide" is already SGR 8,
+    // which conceals text rather than the cursor.
+    ("curs_off",        "X?25l"),
+    ("curs_on",         "X?25h"),
     ("ED",              "X2J"),
     ("cls",             "X2J X3J X1;1H"),
     ("clreol",          "XK"),

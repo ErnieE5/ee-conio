@@ -98,6 +98,57 @@ fn intensity_and_default_keywords() {
 }
 
 #[test]
+fn csi_accepts_real_sequences_and_rejects_soup() {
+    use ee_conio_parse::transform_one;
+
+    // Plain, multi parameter, and the two that are bare finals.
+    for (token, want) in [
+        ("X2J", "\x1b[2J"),
+        ("XK", "\x1b[K"),
+        ("X5;5H", "\x1b[5;5H"),
+        ("Xs", "\x1b[s"),
+        ("Xu", "\x1b[u"),
+        ("X38;2;57;255;20m", "\x1b[38;2;57;255;20m"),
+        ("X;H", "\x1b[;H"), // empty parameters mean "defaults"
+        // DEC private modes -- unreachable before the parameter part
+        // was taught about the private marker.
+        ("X?25l", "\x1b[?25l"),
+        ("X?25h", "\x1b[?25h"),
+        ("X?1049h", "\x1b[?1049h"),
+        ("X?2004l", "\x1b[?2004l"),
+    ] {
+        assert_eq!(
+            want,
+            transform_one(token).unwrap_or_else(|e| panic!("{token}: {e}")),
+            "{token}"
+        );
+    }
+
+    // A flat [0-9:;<=>?] character class would accept every one of these.
+    for token in [
+        "X::2J",   // leading sub parameter separators
+        "X??25l",  // two private markers
+        "X:::m",   // nothing but separators
+        "X?2?5l",  // marker in the middle
+        "X;;:H",   // colon among the parameters
+        "Xzz",     // no valid final byte
+        "X99",     // digits with no final byte
+        "X",       // nothing at all
+    ] {
+        assert!(
+            transform_one(token).is_err(),
+            "{token} should not parse as a CSI sequence"
+        );
+    }
+}
+
+#[test]
+fn cursor_visibility_keywords() {
+    assert_eq!("\x1b[?25l", kw("curs_off"));
+    assert_eq!("\x1b[?25h", kw("curs_on"));
+}
+
+#[test]
 fn error_messages_reach_display() {
     use ee_conio_parse::transform_one;
 

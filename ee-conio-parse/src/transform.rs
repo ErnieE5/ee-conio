@@ -137,8 +137,22 @@ static RE_TRANS: LazyLock<RemapItem> = LazyLock::new(|| {
     m.push((regex!("^(?<opr>x[:]?|(?i:SGR)[:])(?<dig>.+)$"), ansi_x));
 
     // CSI control  \x1b[38;2;255;255;255m
+    //
+    // The parameter part follows the shape of a real CSI sequence rather than
+    // a flat set of legal bytes: at most one private marker at the front, then
+    // digits separated by ';'.  Written as a character class it would also
+    // accept nonsense like X::2J and X??25l.
+    //
+    // The marker is what DEC private modes are spelled with, so this is also
+    // what makes ~[X?25l] (hide cursor) and ~[X?1049h] (alternate screen)
+    // reachable at all.
+    //
+    // Cost of the strictness: colon sub-parameters (the ECMA-48 38:2::r:g:b
+    // form) are rejected.  Allowing them means allowing X::2J again.
     m.push((
-        regex!("^(?<opr>X[:]?|(?i:CSI)[:])(?<dig>[0-9;]{0,20}[ABCDEFGJHKSTfhilmnrsu])$"),
+        regex!(
+            "^(?<opr>X[:]?|(?i:CSI)[:])(?<dig>[<=>?]?[0-9]*(?:;[0-9]*)*[ABCDEFGJHKSTfhilmnrsu])$"
+        ),
         ansi_X,
     ));
 

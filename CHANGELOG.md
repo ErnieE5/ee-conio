@@ -30,6 +30,22 @@ This project is in __alpha__: the API may change in any release.
   to SGR 22, which clears the two intensities together.
 - `default` and `DEFAULT` (SGR 39 and 49) return a channel to the terminal
   default without an SGR 0, which would also drop bold, underline and friends.
+- `curs_off` and `curs_on` hide and show the cursor. Not named
+  `hide_cursor`, because `hide` is already SGR 8 and conceals text.
+- DEC private mode sequences are now expressible at all. The `X` mnemonic's
+  parameter part rejected `?`, so `~[X?25l]`, `~[X?1049h]` (alternate screen)
+  and `~[X?2004h]` (bracketed paste) could not be written. They can now.
+
+### Fixed
+- The `X` mnemonic's parameter part now follows the shape of a CSI sequence —
+  at most one private marker at the front, then digits separated by `;` —
+  instead of accepting any mix of the legal bytes. Soup like `~[X::2J]`,
+  `~[X??25l]` and `~[X?2?5l]` is rejected rather than passed through to the
+  terminal.
+
+  Colon sub-parameters (the ECMA-48 `38:2::r:g:b` form) are rejected as a
+  consequence; permitting them is what would let `X::2J` back in. The `;`
+  form is unaffected and is what is universally supported.
 
 ### Changed — BREAKING for `ee-conio-parse`
 - `ParseError`'s fields are private. Use `msg()`, `span()`, `start()` and
