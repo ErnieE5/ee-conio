@@ -16,6 +16,24 @@ program runs.  `NO_COLOR`, `CLICOLOR`, `--color=never` and terminal detection
 are __not__ implemented.  If your output may be piped or redirected, this
 library will put escape sequences there.
 
+Filter it downstream instead.  Beware that the usual one line recipe matches
+__CSI only__, and `~[dhtop]`/`~[dhbot]`/`~[swsh]`/`~[dwsh]` emit `ESC #n`,
+which is not CSI — a CSI-only filter leaves `#3` sitting in your log.  These
+cover all three shapes this library emits (CSI, `ESC #n`, and a lone `ESC`
+from `esc!`):
+
+```bash
+your_program | perl -pe 's{\e\[[0-9:;<=>?]*[ -/]*[@-~]}{}g; s{\e#[0-9]}{}g; s{\e}{}g'
+
+your_program | sed -E 's,\x1B\[[0-9:;<=>?]*[ -/]*[@-~],,g; s,\x1B#[0-9],,g; s,\x1B,,g'
+```
+
+```powershell
+your_program | ForEach-Object {
+    $_ -replace "`e\[[0-9:;<=>?]*[ -/]*[@-~]", '' -replace "`e#[0-9]", '' -replace "`e", ''
+}
+```
+
 Exact error underlining requires a nightly compiler; on stable the error is
 attributed to the whole string literal.  The API is unstable — see the
 [CHANGELOG](CHANGELOG.md).

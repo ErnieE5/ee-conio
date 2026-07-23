@@ -196,6 +196,47 @@ may be redirected to a file or piped into another program, this library will
 put escape sequences there. If that matters for your use, a run time styling
 crate is the better fit today.
 
+## Stripping escapes downstream
+
+Filter the output instead. Note that the usual one line recipe found on the
+internet matches __CSI only__ and will leave some of this library's output
+behind, because [`~[dhtop]`](#keywords) and friends emit `ESC #n`, which is
+not a CSI sequence.
+
+Everything `ee_conio` can emit is one of three shapes:
+
+| Shape                              | Emitted by                                  |
+| ---------------------------------- | ------------------------------------------- |
+| `ESC [` params intermediates final | every color, [`sgr!`], [`csi!`], `~[x0]`, `~[X2J]`, … |
+| `ESC #` digit                      | `~[dhtop]` `~[dhbot]` `~[swsh]` `~[dwsh]`    |
+| a lone `ESC`                       | [`esc!`] used on its own                     |
+
+Recipes that cover all three:
+
+```bash
+# perl -- the most portable of these
+your_program | perl -pe 's{\e\[[0-9:;<=>?]*[ -/]*[@-~]}{}g; s{\e#[0-9]}{}g; s{\e}{}g'
+
+# GNU sed
+your_program | sed -E 's,\x1B\[[0-9:;<=>?]*[ -/]*[@-~],,g; s,\x1B#[0-9],,g; s,\x1B,,g'
+```
+
+```powershell
+# PowerShell 7 (`e is ESC)
+your_program | ForEach-Object {
+    $_ -replace "`e\[[0-9:;<=>?]*[ -/]*[@-~]", '' -replace "`e#[0-9]", '' -replace "`e", ''
+}
+```
+
+`ansifilter` and `ansi2txt` are ready made alternatives, though it is worth
+checking that whichever you pick handles `ESC #n` and not just CSI.
+
+Two things these deliberately do __not__ do. A lone `ESC` from [`esc!`] loses
+only the escape byte itself, since the library has no idea what you meant to
+compose after it. And the emoji keywords (`~[heart]`, `~[poo]`, …) are
+ordinary characters rather than escapes, so they survive stripping — which is
+usually what you want in a log, but is worth knowing.
+
 __Exact error locations require a nightly compiler.__ Parse errors always
 carry a correct message and offset, but placing the underline on the offending
 characters relies on [`proc_macro2::Literal::subspan`], which yields nothing
