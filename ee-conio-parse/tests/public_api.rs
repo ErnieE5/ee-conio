@@ -49,8 +49,26 @@ fn error_messages_reach_display() {
 
     // Display used to print a fixed joke string, discarding the msg field.
     let e = transform_one("{}").expect_err("unknown mnemonic");
-    assert_eq!(e.msg, format!("{e}"));
+    assert_eq!(e.msg(), format!("{e}"));
     assert!(format!("{e}").contains("{}"), "got: {e}");
+}
+
+#[test]
+fn parse_error_is_a_std_error() {
+    use ee_conio_parse::transform_one;
+    use std::error::Error;
+
+    // Usable with ? into Box<dyn Error> and the anyhow/thiserror ecosystem.
+    fn boxed() -> Result<String, Box<dyn Error>> {
+        Ok(transform_one("{}")?)
+    }
+
+    let e = boxed().expect_err("unknown mnemonic");
+    assert!(e.to_string().contains("does not match"), "got: {e}");
+
+    // No underlying cause to report.
+    let pe = transform_one("{}").expect_err("unknown mnemonic");
+    assert!(pe.source().is_none());
 }
 
 #[test]
@@ -59,23 +77,24 @@ fn error_spans_point_at_the_offending_text() {
 
     // Whole token for an unknown mnemonic.
     let e = transform_one("qqq").expect_err("unknown");
-    assert_eq!((e.start, e.end), (0, 3));
+    assert_eq!(e.span(), 0..3);
 
     // Just the digits for an out of range color -- not the leading 'c'.
     let e = transform_one("c999").expect_err("out of range");
-    assert_eq!((e.start, e.end), (1, 4));
-    assert_eq!("999", &"c999"[e.start..e.end]);
+    assert_eq!(e.span(), 1..4);
+    assert_eq!("999", &"c999"[e.span()]);
+    assert_eq!((e.start(), e.end()), (1, 4));
 
     // Just the name for an unknown named color, inside the quotes.
     let e = transform_one("#'Nope'").expect_err("unknown color");
-    assert_eq!("Nope", &"#'Nope'"[e.start..e.end]);
+    assert_eq!("Nope", &"#'Nope'"[e.span()]);
 
     // transform_all must SHIFT that span by the token offset, not replace it
     // with the whole token.  "999" sits at 6..9 of "c227 c999".
     let src = "c227 c999";
     let e = transform_all(src).expect_err("out of range");
-    assert_eq!((e.start, e.end), (6, 9));
-    assert_eq!("999", &src[e.start..e.end]);
+    assert_eq!(e.span(), 6..9);
+    assert_eq!("999", &src[e.span()]);
 }
 
 #[test]

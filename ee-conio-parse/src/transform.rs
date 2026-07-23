@@ -106,13 +106,12 @@ pub fn find_replacement_patterns(source: &str) -> Result<Vsvs, ParseError> {
         match transform_all(m.as_str()) {
             Ok(x) => replace.push((t.as_str().to_string(), x)),
             Err(e) => {
-                let length = e.end - e.start;
+                let length = e.end() - e.start();
 
                 return Err(e.wrap(
                     "find_replacement_patterns",
-                    e.msg.to_string(),
-                    m.start() + e.start,
-                    m.start() + e.start + length,
+                    m.start() + e.start(),
+                    m.start() + e.start() + length,
                 ));
             }
         }
@@ -205,13 +204,12 @@ pub fn transform_all(value: &str) -> Result<Vec<String>, ParseError> {
                     // whole token, so precision computed by the leaf survives
                     // (chardig points at the digits).  Same shape as the
                     // re-basing in find_replacement_patterns.
-                    let length = e.end - e.start;
+                    let length = e.end() - e.start();
 
                     return Err(e.wrap(
                         "transform_to_escapes",
-                        e.msg.clone(),
-                        m.start() + e.start,
-                        m.start() + e.start + length,
+                        m.start() + e.start(),
+                        m.start() + e.start() + length,
                     ));
                 }
             };

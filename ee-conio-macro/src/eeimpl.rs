@@ -53,11 +53,11 @@ fn process_stream(input: TokenStream, at_end: fn(String) -> String) -> Result<Ve
                 let replacement_patterns = match find_replacement_patterns(&literal) {
                     Ok(r) => r,
                     Err(e) => {
-                        let ss = match l.subspan(e.start + 1..e.end + 1) {
+                        let ss = match l.subspan(e.start() + 1..e.end() + 1) {
                             Some(i) => i,
                             None => l.span(),
                         };
-                        return Err(Error::new(ss, e.msg.to_string()));
+                        return Err(Error::new(ss, e.msg().to_string()));
                     }
                 };
 

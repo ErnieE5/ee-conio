@@ -7,6 +7,27 @@ This project is in __alpha__: the API may change in any release.
 
 ## 0.1.0-alpha.6 — unreleased
 
+### Changed — BREAKING for `ee-conio-parse`
+- `ParseError`'s fields are private. Use `msg()`, `span()`, `start()` and
+  `end()` instead of `.msg`, `.start` and `.end`. `span()` returns a
+  `Range<usize>` and is the one you usually want, since it indexes directly:
+  `&literal[e.span()]`.
+- `origin` — the breadcrumb trail of functions an error passed through — was
+  never meant to be public. It is now private and appears only in `Debug`
+  output.
+- `ParseError::new` and `ParseError::wrap` are `pub(crate)`. Callers of this
+  crate receive errors, they do not construct them.
+- `wrap` no longer takes a message. Both call sites passed the error's own
+  message straight back in, so the parameter was dead weight.
+
+  Users of `ee-conio` are unaffected; none of this is reachable through the
+  facade.
+
+### Added
+- `ParseError` implements `std::error::Error`, so it works with `?` into
+  `Box<dyn Error>` and with `anyhow` / `thiserror`. It reports no `source()`,
+  having no underlying cause to point at.
+
 ### Changed
 - Replaced two `todo!()` and a `panic!` in `ee-conio-parse` with `expect`
   calls that state the invariant. All three sat on regex capture groups that
