@@ -5,7 +5,7 @@ All four crates (`ee-conio`, `ee-conio-engine`, `ee-conio-macro`,
 
 This project is in __alpha__: the API may change in any release.
 
-## 0.1.0-alpha.6 — unreleased
+## 0.1.0-alpha.6
 
 ### Changed — BREAKING for anyone using `~[green]`, `~[yellow]` or `~[white]`
 - The eight plain color keywords now map to ANSI __0..=7__, the standard
