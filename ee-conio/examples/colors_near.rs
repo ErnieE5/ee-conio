@@ -16,7 +16,7 @@ fn main() {
 
     let mut near_matches: BTreeMap<Color, (String, String)> = BTreeMap::new();
 
-    near_matches.insert(start.clone(), (String::from(""), start.to_string()));
+    near_matches.insert(start, (String::from(""), start.to_hex()));
 
     for (name, code) in named_color_iter() {
         let cc = Color::from_str(code).expect("invalid hex string");

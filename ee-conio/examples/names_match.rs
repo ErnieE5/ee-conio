@@ -17,7 +17,7 @@ fn main() {
         let cc          = Color::from_str(nrgb).expect("invalid hex string");
         let (r, g, b)   = cc.into_components();
         let luma        = cc.luma();
-        let hex         = cc.to_string();
+        let hex         = cc.to_hex();
         let (bg, fg)    = if mode == "bg" {
             (bg_color_rgb(r, g, b), cc.fg_best_contrast())
         } else {

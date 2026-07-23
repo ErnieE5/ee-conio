@@ -87,8 +87,10 @@ impl Color {
         (h, l, v)
     }
 
-    ///
-    pub fn to_string(&self) -> String {
+    /// The `#RRGGBB` form.  NOT named `to_string` because [`fmt::Display`]
+    /// shows the sort keys, and an inherent `to_string` would shadow it:
+    /// `c.to_string()` and `format!("{c}")` would disagree.
+    pub fn to_hex(self) -> String {
         format!("#{:X}", self.rgb)
     }
 

@@ -29,7 +29,7 @@ fn main() {
 
     for (k, (_code, name)) in get_named_color_map() {
         let (r, g, b)   = k.into_components();
-        let hex         = k.to_string();
+        let hex         = k.to_hex();
         let luma        = k.luma();
         let (bg, fg)    = if bg_mode {
             (bg_color_rgb(r, g, b), k.fg_best_contrast())

@@ -27,7 +27,7 @@ fn main() {
     let txt_in = codes[1].as_str();
     let primary: Color = Color::from_str(txt_in).expect("invalid hex string");
 
-    let hex = primary.to_string();
+    let hex = primary.to_hex();
     header!("Suggested named {mode} colors that contrast well with {hex}.");
 
     type ContrastMap = BTreeMap<OrderedFloat<f32>, (String, Color)>;
@@ -46,7 +46,7 @@ fn main() {
 
     for (rc, (name, cc)) in good_matches {
         let (r, g, b)   = cc.into_components();
-        let hex         = cc.to_string();
+        let hex         = cc.to_hex();
 
         let (fg, bg)    = if mode == "foreground" {
             (fg_color_rgb(r, g, b), bg_color_rgb(pr, pg, pb))
