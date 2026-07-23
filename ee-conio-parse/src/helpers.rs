@@ -27,7 +27,7 @@ impl ParseError {
 
 impl std::fmt::Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "the Frack has Attacked...")
+        write!(f, "{}", self.msg)
     }
 }
 

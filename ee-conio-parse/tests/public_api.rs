@@ -42,3 +42,56 @@ fn transforms() {
 
     assert!(transform_one("{}").is_err());
 }
+
+#[test]
+fn error_messages_reach_display() {
+    use ee_conio_parse::transform_one;
+
+    // Display used to print a fixed joke string, discarding the msg field.
+    let e = transform_one("{}").expect_err("unknown mnemonic");
+    assert_eq!(e.msg, format!("{e}"));
+    assert!(format!("{e}").contains("{}"), "got: {e}");
+}
+
+#[test]
+fn error_spans_point_at_the_offending_text() {
+    use ee_conio_parse::{transform_all, transform_one};
+
+    // Whole token for an unknown mnemonic.
+    let e = transform_one("qqq").expect_err("unknown");
+    assert_eq!((e.start, e.end), (0, 3));
+
+    // Just the digits for an out of range color -- not the leading 'c'.
+    let e = transform_one("c999").expect_err("out of range");
+    assert_eq!((e.start, e.end), (1, 4));
+    assert_eq!("999", &"c999"[e.start..e.end]);
+
+    // Just the name for an unknown named color, inside the quotes.
+    let e = transform_one("#'Nope'").expect_err("unknown color");
+    assert_eq!("Nope", &"#'Nope'"[e.start..e.end]);
+
+    // transform_all must SHIFT that span by the token offset, not replace it
+    // with the whole token.  "999" sits at 6..9 of "c227 c999".
+    let src = "c227 c999";
+    let e = transform_all(src).expect_err("out of range");
+    assert_eq!((e.start, e.end), (6, 9));
+    assert_eq!("999", &src[e.start..e.end]);
+}
+
+#[test]
+fn quoted_names_are_never_ambiguous_with_hex() {
+    use ee_conio_parse::transform_one;
+
+    // "#'abcd'" is '#' plus six characters, so the old `.{6,6}` rgb pattern
+    // matched it too -- only push order kept it resolving as a named color.
+    let e = transform_one("#'abcd'").expect_err("not a color name");
+    assert!(format!("{e}").contains("not a known named color"), "got: {e}");
+
+    // Malformed hex is reported as such rather than as an unknown mnemonic.
+    let e = transform_one("#ZZZZZZ").expect_err("bad hex");
+    assert!(format!("{e}").contains("six hex digits"), "got: {e}");
+
+    // Valid hex still resolves, upper and lower case.
+    assert_eq!("\x1b[38;2;57;255;20m", transform_one("#39FF14").expect("hex"));
+    assert_eq!("\x1b[38;2;57;255;20m", transform_one("#39ff14").expect("hex"));
+}

@@ -31,38 +31,34 @@ fn crack_ansi_bg_rgb(c: Captures) -> ParseStringResult {
     }
 }
 
-fn chardig(o: &str, dig: &str) -> Result<u8, ParseError> {
-    Ok(match dig.parse() {
-        Ok(v) => v,
+// `at` is where `dig` starts inside the token, so the error underlines the
+// digits themselves rather than the whole mnemonic.
+fn chardig(o: &str, dig: &str, at: usize) -> Result<u8, ParseError> {
+    match dig.parse() {
+        Ok(v) => Ok(v),
         Err(_) => {
-            let msg = format!("'{dig}' is is not a base 10 value in the range 0..=255");
-            return Err(ParseError::new(o, msg, 0, 0));
+            let msg = format!("'{dig}' is not a base 10 value in the range 0..=255");
+            Err(ParseError::new(o, msg, at, at + dig.len()))
         }
-    })
+    }
 }
 
 #[allow(non_snake_case)]
 fn ansi_c(c: Captures) -> ParseStringResult {
-    match chardig("ansi_c", &c["dig"]) {
-        Ok(v) => Ok(fg_color_256(v)),
-        Err(e) => Err(e),
-    }
+    let d = c.name("dig").expect("'dig' capture group");
+    Ok(fg_color_256(chardig("ansi_c", d.as_str(), d.start())?))
 }
 
 #[allow(non_snake_case)]
 fn ansi_C(c: Captures) -> ParseStringResult {
-    match chardig("ansi_C", &c["dig"]) {
-        Ok(v) => Ok(bg_color_256(v)),
-        Err(e) => Err(e),
-    }
+    let d = c.name("dig").expect("'dig' capture group");
+    Ok(bg_color_256(chardig("ansi_C", d.as_str(), d.start())?))
 }
 
 #[allow(non_snake_case)]
 fn ansi_x(c: Captures) -> ParseStringResult {
-    match chardig("ansi_x", &c["dig"]) {
-        Ok(v) => Ok(sgr_code(v)),
-        Err(e) => Err(e),
-    }
+    let d = c.name("dig").expect("'dig' capture group");
+    Ok(sgr_code(chardig("ansi_x", d.as_str(), d.start())?))
 }
 
 #[allow(non_snake_case)]
@@ -72,24 +68,24 @@ fn ansi_X(c: Captures) -> ParseStringResult {
 
 #[allow(non_snake_case)]
 fn ansi_s(c: Captures) -> ParseStringResult {
-    let v = &c["name"];
-    match get_named_foreground_escape(v.trim()) {
+    let n = c.name("name").expect("'name' capture group");
+    match get_named_foreground_escape(n.as_str().trim()) {
         Some(s) => Ok(s.to_string()),
         None => {
-            let msg = format!("'{v}' not a known named color");
-            Err(ParseError::new("ansi_s", msg, 0, 0))
+            let msg = format!("'{}' not a known named color", n.as_str());
+            Err(ParseError::new("ansi_s", msg, n.start(), n.end()))
         }
     }
 }
 
 #[allow(non_snake_case)]
 fn ansi_S(c: Captures) -> ParseStringResult {
-    let v = &c["name"];
-    match get_named_background_escape(v.trim()) {
+    let n = c.name("name").expect("'name' capture group");
+    match get_named_background_escape(n.as_str().trim()) {
         Some(s) => Ok(s.to_string()),
         None => {
-            let msg = format!("'{v}' not a known named color");
-            Err(ParseError::new("ansi_S", msg, 0, 0))
+            let msg = format!("'{}' not a known named color", n.as_str());
+            Err(ParseError::new("ansi_S", msg, n.start(), n.end()))
         }
     }
 }
@@ -152,9 +148,13 @@ static RE_TRANS: LazyLock<RemapItem> = LazyLock::new(|| {
     m.push((regex!("^(?<opr>[#]')(?<name>.*)'$"), ansi_s));
     m.push((regex!("^(?<opr>[$]')(?<name>.*)'$"), ansi_S));
 
-    // foreground and background RGB colors #RRGGBB $RRGGBB [[:xdigit:]]
-    m.push((regex!("^(?<rgb>[#].{6,6})$"), crack_ansi_fg_rgb));
-    m.push((regex!("^(?<rgb>[$].{6,6})$"), crack_ansi_bg_rgb));
+    // foreground and background RGB colors #RRGGBB $RRGGBB
+    //
+    // [[:xdigit:]] rather than `.` so a quoted name can never *also* parse as
+    // hex.  With `.{6,6}` the token #'abcd' matched both this and the named
+    // color pattern above, and correctness depended on the push order here.
+    m.push((regex!("^(?<rgb>[#][[:xdigit:]]{6})$"), crack_ansi_fg_rgb));
+    m.push((regex!("^(?<rgb>[$][[:xdigit:]]{6})$"), crack_ansi_bg_rgb));
 
     m
 });
@@ -173,15 +173,17 @@ pub fn transform_one(value: &str) -> ParseStringResult {
         }
     }
 
-    Err(ParseError::new(
-        "transform_one",
-        format!(
-            "'{}' does not match known keywords, names, or mnemonics",
-            value
-        ),
-        0,
-        0,
-    ))
+    // Name the likely intent when the token at least *looks* like a color
+    // literal.  Tightening the rgb patterns to [[:xdigit:]] means malformed
+    // hex no longer reaches r_g_b_from_string, so say so here instead.
+    let msg = match value.chars().next() {
+        Some('#') | Some('$') => {
+            format!("'{value}' is neither six hex digits nor a quoted color name")
+        }
+        _ => format!("'{value}' does not match known keywords, names, or mnemonics"),
+    };
+
+    Err(ParseError::new("transform_one", msg, 0, value.len()))
 }
 
 pub fn transform_all(value: &str) -> Result<Vec<String>, ParseError> {
@@ -200,7 +202,18 @@ pub fn transform_all(value: &str) -> Result<Vec<String>, ParseError> {
             match transform_one(token) {
                 Ok(x) => items.push(x),
                 Err(e) => {
-                    return Err(e.wrap("transform_to_escapes", e.msg.clone(), m.start(), m.end()));
+                    // Shift the inner span instead of replacing it with the
+                    // whole token, so precision computed by the leaf survives
+                    // (chardig points at the digits).  Same shape as the
+                    // re-basing in find_replacement_patterns.
+                    let length = e.end - e.start;
+
+                    return Err(e.wrap(
+                        "transform_to_escapes",
+                        e.msg.clone(),
+                        m.start() + e.start,
+                        m.start() + e.start + length,
+                    ));
                 }
             };
         }
