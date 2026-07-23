@@ -3,6 +3,7 @@
 |ee-conio       |[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio)|[<img alt="docs.rs" src="https://docs.rs/ee-conio/badge.svg" height="20">](https://docs.rs/ee-conio)|
 |ee-conio-engine|[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio-engine.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio-engine)|[<img alt="docs.rs" src="https://docs.rs/ee-conio-engine/badge.svg" height="20">](https://docs.rs/ee-conio-engine)|
 |ee-conio-macro |[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio-macro.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio-macro)|[<img alt="docs.rs" src="https://docs.rs/ee-conio-macro/badge.svg" height="20">](https://docs.rs/ee-conio-macro)|
+|ee-conio-parse |[<img alt="crates.io" src="https://img.shields.io/crates/v/ee-conio-parse.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/ee-conio-parse)|[<img alt="docs.rs" src="https://docs.rs/ee-conio-parse/badge.svg" height="20">](https://docs.rs/ee-conio-parse)|
 
 
 Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape] in [Rust][rust] source code.
