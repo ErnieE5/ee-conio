@@ -87,15 +87,19 @@ let z = "";
 assert_eq!( y, z );
 ```
 
-The following code __will not__ compile:
-```{rust, eval=FALSE}
-let q = ctransform!("~[{}]","");
-
+The following code __will not__ compile.  This block is a `compile_fail`
+doctest, so `cargo test` asserts that it is still rejected:
+```compile_fail
+use ee_conio::ctransform;
+let q = ctransform!("~[{}]");
+```
+and is rejected like this:
+```text
 error: '{}' does not match known keywords, names, or mnemonics
-   --> examples\smorgasbord.rs:137:24
-    |
-137 | let q = ctransform!("~[{}]","");
-    |                        ^^
+ --> src\main.rs:4:28
+  |
+4 |     let q = ctransform!("~[{}]");
+  |                            ^^
 ```
 Please note that the accurate identification of the exact location above
 currently requires a nightly build[^see].
@@ -137,7 +141,7 @@ cprintln!("~[white BLUE]White text on a blue background.");
 
 
 # Macro/Function escape primitives.
-The macros/functions supporting sequences in [ee_conio] are thin wrappers
+The macros/functions supporting sequences in [ee_conio](crate) are thin wrappers
 for [ANSI Escape Sequences][ansi]. They help simplify creation, but are not
 much of an abstraction beyond that.
 
@@ -198,7 +202,7 @@ a useful keyword is:
 
 pub use ee_conio_engine::{
     ansi_escape::{bg_color_256, bg_color_rgb, csi_sequence, fg_color_256, fg_color_rgb, sgr_code},
-    bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr,
+    bg_256, bg_rgb, csi, esc, fg_256, fg_rgb, sgr,
 };
 
 pub use ::ee_conio_macro::{cformat, cprint, cprintln, ctransform, cwrite, cwriteln};

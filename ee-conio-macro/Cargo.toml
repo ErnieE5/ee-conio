@@ -7,6 +7,8 @@ version = "0.1.0-alpha.4"
 description="ANSI escape sequence helpers (compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
+# Higher than the edition floor: rustc-literal-escaper 0.0.7 needs 1.89.
+rust-version = "1.89"
 license = "MIT OR Apache-2.0"
 keywords = ["ANSI", "terminal"]
 categories = ["command-line-utilities"]

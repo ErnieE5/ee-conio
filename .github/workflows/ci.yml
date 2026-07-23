@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+# No rustfmt job on purpose: the source uses deliberate column alignment and
+# #[rustfmt::skip], so `cargo fmt --check` does not pass and is not meant to.
+
+jobs:
+  test:
+    name: test / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: build
+        run: cargo build --workspace --all-targets --examples
+      - name: test
+        run: cargo test --workspace --all-targets
+      # --all-targets does NOT run doctests, and the docs in ee-conio/src/lib.rs
+      # carry real assertions plus a compile_fail negative test.
+      - name: doctests
+        run: cargo test --workspace --doc
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+  msrv:
+    name: msrv / ${{ matrix.rust }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # engine and parse carry no dependency above the edition 2024 floor
+          - rust: "1.85.0"
+            packages: -p ee-conio-engine -p ee-conio-parse
+          # macro needs 1.89 for rustc-literal-escaper; the facade inherits it
+          - rust: "1.89.0"
+            packages: --workspace
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+      - uses: Swatinem/rust-cache@v2
+      # --lib only: rust-version is a promise about the published library, not
+      # about dev-dependencies used by the examples.
+      - run: cargo check ${{ matrix.packages }} --lib
+
+  docs:
+    # docs.rs builds on nightly.  This repo has a history of doc build failures,
+    # so deny warnings here rather than finding out after publishing.
+    runs-on: ubuntu-latest
+    env:
+      RUSTDOCFLAGS: -D warnings
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo doc --workspace --no-deps --all-features

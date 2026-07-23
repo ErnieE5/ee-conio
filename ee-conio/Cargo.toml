@@ -4,6 +4,8 @@ version = "0.1.0-alpha.4"
 description="ANSI escape sequence helpers (run/compile time)"
 repository = "https://github.com/ErnieE5/ee-conio"
 edition = "2024"
+# Inherited from ee-conio-macro; see that manifest.
+rust-version = "1.89"
 license = "MIT OR Apache-2.0"
 keywords = ["ANSI", "terminal"]
 categories = ["command-line-utilities"]

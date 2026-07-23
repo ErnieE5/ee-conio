@@ -1,7 +1,8 @@
 #[test]
 fn compiled_macro_rules() {
-    use ee_conio::{bg_256, bg_rgb, csi, fg_256, fg_rgb, sgr};
+    use ee_conio::{bg_256, bg_rgb, csi, esc, fg_256, fg_rgb, sgr};
 
+    assert_eq!("\x1b", esc!());
     assert_eq!("\x1b[", csi!(""));
     assert_eq!("\x1b[0m", csi!("0m"));
     assert_eq!("\x1b[K", csi!("K"));
