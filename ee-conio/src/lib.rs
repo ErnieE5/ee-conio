@@ -26,7 +26,7 @@ are hard to decipher as well[^sub].
 
 This library makes adding escapes to output easier to reconcile[^sub].  The
 examples above can be automatically inserted into __static literals__ with this
-library. Each use of `cprintln!` macro below will emit a line of text
+library. Each use of the `cprintln!` macro below will emit a line of text
 in red with a black background[^modern].
 ```rust
 use ee_conio::cprintln;
@@ -167,7 +167,7 @@ Most of how I use this library is with mnemonic expansions in `cprintln!`
 
 # Mnemonics
 Mnemonics are shorthand for escape sequences that help hide the syntax, but
-do VERY little to hide requirement for understanding what they are and how they
+do VERY little to hide the requirement for understanding what they are and how they
 should be used.
 
 | Mnemonic      | values             | Example(s)                   | Description |
@@ -182,7 +182,7 @@ should be used.
 | `X{seq_str}`  | String Literal   | `X2J`,`XK`,`X5;5H`        | [CSI][csi] Clear Screen, Clear to End of Line, Position cursor row 5 column 5|
 
 # Keywords
-Keywords take it once step further and try to encode the intent.  An example of
+Keywords take it one step further and try to encode the intent.  An example of
 a useful keyword is:
  `~[underline]` == `x4`  == `\x1b[4m`
  `~[under_off]` == `x24` == `\x1b[24m`
@@ -261,7 +261,7 @@ any release; see the [CHANGELOG][changelog].
 [24bit]:<https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit>
 [named]:<https://en.wikipedia.org/wiki/List_of_colors_(alphabetical)>
 [^sub]: This is a highly subjective statement. You may disagree.
-[^modern]: ANSI/VT100 escapes have been around for very long time. Support for many color and cursor options is 'new' to many "modern" terminals.
+[^modern]: ANSI/VT100 escapes have been around for a very long time. Support for many color and cursor options is 'new' to many "modern" terminals.
 [^oof]: Do I really need to type more?
 [^see]: 4/2026 [proc-macro2::subspan](https://docs.rs/proc-macro2/latest/proc_macro2/struct.Literal.html#method.subspan)
 

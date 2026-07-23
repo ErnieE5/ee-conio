@@ -37,7 +37,7 @@ ee-conio
 
 [ee-conio] General use API<br/>
 [ee-conio-engine] Escape sequence primitives for compile/run time use. No dependencies.<br/>
-[ee-conio-macro] is the compile time proc_macro routines<br/>
+[ee-conio-macro] are the compile time proc_macro routines<br/>
 [ee-conio-parse] is the `~[...]` parser and the keyword/color tables<br/>
 
 `ee-conio-parse` is reached only through the proc macros, so the `regex`
