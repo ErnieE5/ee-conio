@@ -2,7 +2,7 @@ mod common;
 use common::*;
 
 use ee_conio::{bg_color_rgb, cprintln, fg_color_rgb};
-use ee_conio_engine::named_color_iter;
+use ee_conio_parse::named_color_iter;
 
 use ordered_float::OrderedFloat;
 

@@ -44,6 +44,7 @@ version = "0.1.0-alpha.2"
 dependencies = [
  "ee-conio-engine",
  "ee-conio-macro",
+ "ee-conio-parse",
  "embed-doc-image",
  "enterpolation",
  "ordered-float",
@@ -53,19 +54,25 @@ dependencies = [
 [[package]]
 name = "ee-conio-engine"
 version = "0.1.0-alpha.2"
-dependencies = [
- "regex",
- "regex-macro",
-]
 
 [[package]]
 name = "ee-conio-macro"
 version = "0.1.0-alpha.2"
 dependencies = [
  "ee-conio-engine",
+ "ee-conio-parse",
  "proc-macro2",
  "rustc-literal-escaper",
  "syn 2.0.117",
+]
+
+[[package]]
+name = "ee-conio-parse"
+version = "0.1.0-alpha.2"
+dependencies = [
+ "ee-conio-engine",
+ "regex",
+ "regex-macro",
 ]
 
 [[package]]

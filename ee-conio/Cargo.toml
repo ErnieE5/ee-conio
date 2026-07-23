@@ -19,6 +19,7 @@ embed-doc-image = "0.1.4"
 
 
 [dev-dependencies]
+ee-conio-parse = { path="../ee-conio-parse", version="0.1.0-alpha.2" }
 enterpolation = "0.3.0"
 ordered-float = "5.3.0"
 palette = "0.7.6"

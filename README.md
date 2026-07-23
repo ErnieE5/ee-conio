@@ -12,15 +12,23 @@ This is a cargo workspace that contains the three parts of the "ee-conio" system
 
 
 ```text
-ee-conio 
+ee-conio
 ├── ee-conio-engine
 └── ee-conio-macro
-    └── ee-conio-engine
+    ├── ee-conio-engine
+    └── ee-conio-parse
+        └── ee-conio-engine
 ```
 
 [ee-conio] General use API<br/>
-[ee-conio-engine] Shared implementation for compile/run time use<br/>
+[ee-conio-engine] Escape sequence primitives for compile/run time use. No dependencies.<br/>
 [ee-conio-macro] is the compile time proc_macro routines<br/>
+[ee-conio-parse] is the `~[...]` parser and the keyword/color tables<br/>
+
+`ee-conio-parse` is reached only through the proc macros, so the `regex`
+dependency and the ~1300 entry color table are compile time only — they never
+land in your binary. Depend on it directly if you want those lookups at run
+time.
 
 # Building/Using Locally
 ```bash
@@ -77,7 +85,8 @@ $ cargo run --example names_match -- neon
 
 [ee-conio]: /ee-conio/
 [ee-conio-engine]: /ee-conio-engine/
-[ee-conio-macro]: /ee-conio-engine/
+[ee-conio-macro]: /ee-conio-macro/
+[ee-conio-parse]: /ee-conio-parse/
 [crates.io]:https:://crates.io
 [wiki_escape]: https://en.wikipedia.org/wiki/ANSI_escape_code
 [rust]: https://rust-lang.org/

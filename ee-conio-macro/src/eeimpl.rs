@@ -8,7 +8,10 @@ use proc_macro2::{
 use syn::{Error, LitStr, Result};
 
 #[doc(hidden)]
-use ee_conio_engine::{find_replacement_patterns, sgr};
+use ee_conio_engine::sgr;
+
+#[doc(hidden)]
+use ee_conio_parse::find_replacement_patterns;
 
 #[doc(hidden)]
 #[derive(PartialEq)]

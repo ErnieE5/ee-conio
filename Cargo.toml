@@ -3,6 +3,7 @@ members=[
     "ee-conio",
     "ee-conio-engine",
     "ee-conio-macro",
+    "ee-conio-parse",
 ]
 
 resolver="3"
