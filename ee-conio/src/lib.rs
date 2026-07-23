@@ -1,6 +1,3 @@
-//!
-//!
-//!
 /*!
 Library for more intuitive[^sub] [ANSI escape sequences][ansi] in
 console output.

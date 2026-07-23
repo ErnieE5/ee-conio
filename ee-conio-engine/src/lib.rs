@@ -1,5 +1,3 @@
-//!
-//!
 //!# Quick Start
 //![![Docs.rs](https://docs.rs/ee-conio/badge.svg)](https://docs.rs/ee-conio)
 //!
