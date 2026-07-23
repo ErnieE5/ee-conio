@@ -43,6 +43,60 @@ fn transforms() {
     assert!(transform_one("{}").is_err());
 }
 
+// Keywords are resolved by transform_all, not transform_one -- the latter
+// handles only the regex mnemonics.
+fn kw(name: &str) -> String {
+    use ee_conio_parse::transform_all;
+    transform_all(name)
+        .unwrap_or_else(|e| panic!("{name}: {e}"))
+        .concat()
+}
+
+#[test]
+fn color_keywords_match_their_ansi_numbers() {
+    // The plain eight are ANSI 0..=7, so ~[green] and ~[c2] must agree.
+    for (name, code) in [
+        ("black", 0u8), ("red", 1), ("green", 2), ("yellow", 3),
+        ("blue", 4), ("magenta", 5), ("cyan", 6), ("white", 7),
+    ] {
+        assert_eq!(format!("\x1b[38;5;{code}m"), kw(name), "foreground {name}");
+        assert_eq!(
+            format!("\x1b[48;5;{code}m"),
+            kw(&name.to_uppercase()),
+            "background {name}"
+        );
+    }
+
+    // The bright eight are 8..=15, offset by exactly 8.
+    for (name, code) in [
+        ("bright_black", 8u8), ("bright_red", 9), ("bright_green", 10),
+        ("bright_yellow", 11), ("bright_blue", 12), ("bright_magenta", 13),
+        ("bright_cyan", 14), ("bright_white", 15),
+    ] {
+        assert_eq!(format!("\x1b[38;5;{code}m"), kw(name), "foreground {name}");
+        assert_eq!(
+            format!("\x1b[48;5;{code}m"),
+            kw(&name.to_uppercase()),
+            "background {name}"
+        );
+    }
+}
+
+#[test]
+fn intensity_and_default_keywords() {
+    assert_eq!("\x1b[1m", kw("bold"));
+    assert_eq!("\x1b[1m", kw("bold_on"));
+    assert_eq!("\x1b[2m", kw("dim"));
+
+    // SGR 22 clears both intensities, so the two _off names share it.
+    assert_eq!("\x1b[22m", kw("bold_off"));
+    assert_eq!("\x1b[22m", kw("dim_off"));
+
+    // Default channel, without the collateral damage of SGR 0.
+    assert_eq!("\x1b[39m", kw("default"));
+    assert_eq!("\x1b[49m", kw("DEFAULT"));
+}
+
 #[test]
 fn error_messages_reach_display() {
     use ee_conio_parse::transform_one;

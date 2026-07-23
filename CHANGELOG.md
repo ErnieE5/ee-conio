@@ -7,6 +7,30 @@ This project is in __alpha__: the API may change in any release.
 
 ## 0.1.0-alpha.6 — unreleased
 
+### Changed — BREAKING for anyone using `~[green]`, `~[yellow]` or `~[white]`
+- The eight plain color keywords now map to ANSI __0..=7__, the standard
+  numbering, so `~[green]` and `~[c2]` agree. Previously `green`, `yellow` and
+  `white` pointed at the __bright__ codes (10, 11, 15) while the other five
+  used the standard ones — inconsistent, and surprising either way.
+
+  This is not a compile error. Output simply comes out darker for those three
+  names. If you were relying on the old behavior, use `~[bright_green]`,
+  `~[bright_yellow]` and `~[bright_white]`, which produce exactly what those
+  names produced before.
+
+  `black`, `red`, `blue`, `magenta` and `cyan` are unaffected; they were
+  already standard.
+
+### Added
+- The bright eight: `bright_black` through `bright_white`, with `BRIGHT_*`
+  background forms, covering ANSI 8..=15.
+- `bold` / `bold_on` / `bold_off` and `dim` / `dim_on` / `dim_off`. Bold was
+  the one common attribute with no keyword, even though italic, underline,
+  blink, reverse, hide, strike and overline all had one. Both `_off` names map
+  to SGR 22, which clears the two intensities together.
+- `default` and `DEFAULT` (SGR 39 and 49) return a channel to the terminal
+  default without an SGR 0, which would also drop bold, underline and friends.
+
 ### Changed — BREAKING for `ee-conio-parse`
 - `ParseError`'s fields are private. Use `msg()`, `span()`, `start()` and
   `end()` instead of `.msg`, `.start` and `.end`. `span()` returns a

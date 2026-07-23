@@ -5,22 +5,50 @@ use crate::transform_one;
 
 #[rustfmt::skip]
 pub static NAMED_ESCAPES: &[(&str, &str)] = &[
+    // The standard eight, ANSI 0..=7.  Lowercase is foreground, UPPERCASE is
+    // background.  These follow the usual convention (as colored, owo-colors
+    // and ansi_term do) so that ~[green] and ~[c2] agree.  Reach for the
+    // bright_ set below on a dark background; 2, 3 and 7 are muddy on many
+    // terminals.
     ("black",           "c0"),
     ("BLACK",           "C0"),
     ("red",             "c1"),
     ("RED",             "C1"),
-    ("green",           "c10"),
-    ("GREEN",           "C10"),
-    ("yellow",          "c11"),
-    ("YELLOW",          "C11"),
+    ("green",           "c2"),
+    ("GREEN",           "C2"),
+    ("yellow",          "c3"),
+    ("YELLOW",          "C3"),
     ("blue",            "c4"),
     ("BLUE",            "C4"),
     ("magenta",         "c5"),
     ("MAGENTA",         "C5"),
     ("cyan",            "c6"),
     ("CYAN",            "C6"),
-    ("white",           "c15"),
-    ("WHITE",           "C15"),
+    ("white",           "c7"),
+    ("WHITE",           "C7"),
+
+    // The bright eight, ANSI 8..=15.
+    ("bright_black",    "c8"),
+    ("BRIGHT_BLACK",    "C8"),
+    ("bright_red",      "c9"),
+    ("BRIGHT_RED",      "C9"),
+    ("bright_green",    "c10"),
+    ("BRIGHT_GREEN",    "C10"),
+    ("bright_yellow",   "c11"),
+    ("BRIGHT_YELLOW",   "C11"),
+    ("bright_blue",     "c12"),
+    ("BRIGHT_BLUE",     "C12"),
+    ("bright_magenta",  "c13"),
+    ("BRIGHT_MAGENTA",  "C13"),
+    ("bright_cyan",     "c14"),
+    ("BRIGHT_CYAN",     "C14"),
+    ("bright_white",    "c15"),
+    ("BRIGHT_WHITE",    "C15"),
+
+    // Return a channel to the terminal's default without an SGR 0, which
+    // would also drop bold, underline and friends.
+    ("default",         "x39"),
+    ("DEFAULT",         "x49"),
     ("CUU",             "XA"),
     ("CUD",             "XB"),
     ("CUF",             "XC"),
@@ -33,6 +61,14 @@ pub static NAMED_ESCAPES: &[(&str, &str)] = &[
     ("clrbol",          "X1K"),
     ("clrln",           "X2K"),
     ("reset",           "x0"),
+    // SGR 22 is "normal intensity" and clears bold and dim together, so both
+    // _off names map to it.
+    ("bold",            "x1"),
+    ("bold_on",         "x1"),
+    ("bold_off",        "x22"),
+    ("dim",             "x2"),
+    ("dim_on",          "x2"),
+    ("dim_off",         "x22"),
     ("italic",          "x3"),
     ("italic_on",       "x3"),
     ("italic_off",      "x23"),
