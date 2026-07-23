@@ -143,6 +143,58 @@ fn csi_accepts_real_sequences_and_rejects_soup() {
 }
 
 #[test]
+fn the_basic_color_names_resolve() {
+    use ee_conio_parse::get_named_foreground_escape;
+
+    // These were absent until the table audit -- ~[#'Green'] failed outright
+    // despite 153 entries containing the word.  Each value already existed
+    // under a compound name, so these are aliases, not invented data.
+    for (name, rgb) in [
+        ("Green", (0u8, 128u8, 0u8)),
+        ("Gray", (128, 128, 128)),
+        ("Grey", (128, 128, 128)),
+        ("Magenta", (255, 0, 255)),
+        ("Navy", (0, 0, 128)),
+        ("Lavender", (230, 230, 250)),
+    ] {
+        let (r, g, b) = rgb;
+        assert_eq!(
+            format!("\x1b[38;2;{r};{g};{b}m"),
+            get_named_foreground_escape(name).unwrap_or_else(|| panic!("{name} missing")),
+            "{name}"
+        );
+    }
+}
+
+#[test]
+fn audit_defects_stay_fixed() {
+    use ee_conio_parse::{get_named_foreground_escape, named_color_iter};
+
+    // Two entries differed only by the case of "and" and carried different
+    // values.  The one matching the table's Title Case convention kept the
+    // correct value.
+    assert!(get_named_foreground_escape("Macaroni And Cheese").is_some());
+    assert!(get_named_foreground_escape("Macaroni and Cheese").is_none());
+
+    // #E3F9A6 is a light yellow-green; it was named "Organic Brown".
+    assert!(get_named_foreground_escape("Organic Brown").is_none());
+
+    // Every value is well formed, and no name repeats.
+    let mut names: Vec<&str> = vec![];
+    for (n, v) in named_color_iter() {
+        assert!(
+            v.len() == 7 && v.starts_with('#') && v[1..].bytes().all(|c| c.is_ascii_hexdigit()),
+            "{n} has a malformed value {v}"
+        );
+        names.push(n);
+    }
+    let before = names.len();
+    names.sort_unstable();
+    names.dedup();
+    assert_eq!(before, names.len(), "duplicate name in the color table");
+}
+
+#[test]
 fn cursor_visibility_keywords() {
     assert_eq!("\x1b[?25l", kw("curs_off"));
     assert_eq!("\x1b[?25h", kw("curs_on"));
