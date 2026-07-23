@@ -1,13 +1,13 @@
 [package]
 name = "ee-conio-engine"
-version = "0.1.0-alpha.4"
+version = "0.1.0-alpha.5"
 edition = "2024"
 # Edition 2024 only.  This crate has no dependencies to raise the floor.
 rust-version = "1.85"
 description="ANSI escape sequence helpers (escape primitives, no dependencies)"
 repository = "https://github.com/ErnieE5/ee-conio"
 license = "MIT OR Apache-2.0"
-include = ["/src","/tests"]
+include = ["/src","/tests","/LICENSE-MIT","/LICENSE-APACHE"]
 
 [lints.rust]
 unsafe_code = "forbid"

@@ -185,6 +185,30 @@ a useful keyword is:
  `~[underline]` == `x4`  == `\x1b[4m`
  `~[under_off]` == `x24` == `\x1b[24m`
 
+# Known limitations
+
+__Colors cannot be turned off at run time.__ The escapes are baked into the
+string literals while the program is being compiled, so by the time it runs
+there is nothing left to strip. [`NO_COLOR`][no_color], `CLICOLOR`, a
+`--color=never` flag, and "is stdout actually a terminal" checks are __not__
+implemented, and the macros as they stand cannot honor them. If your output
+may be redirected to a file or piped into another program, this library will
+put escape sequences there. If that matters for your use, a run time styling
+crate is the better fit today.
+
+__Exact error locations require a nightly compiler.__ Parse errors always
+carry a correct message and offset, but placing the underline on the offending
+characters relies on [`proc_macro2::Literal::subspan`], which yields nothing
+on stable. On stable the error is attributed to the whole string literal
+instead[^see].
+
+__The API is unstable.__ This is an alpha. Names and behavior may change in
+any release; see the [CHANGELOG][changelog].
+
+[no_color]:<https://no-color.org/>
+[changelog]:<https://github.com/ErnieE5/ee-conio/blob/main/CHANGELOG.md>
+[`proc_macro2::Literal::subspan`]:<https://docs.rs/proc-macro2/latest/proc_macro2/struct.Literal.html#method.subspan>
+
 
 
 [ansi]:<https://en.wikipedia.org/wiki/ANSI_escape_code>

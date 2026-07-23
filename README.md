@@ -8,6 +8,18 @@
 
 Simple tools to allow more human readable encodings of [ANSI escape sequences][wiki_escape] in [Rust][rust] source code.
 
+# Known limitations
+
+__Colors cannot be turned off at run time.__  The escapes are baked into the
+string literals at compile time, so there is nothing left to strip when the
+program runs.  `NO_COLOR`, `CLICOLOR`, `--color=never` and terminal detection
+are __not__ implemented.  If your output may be piped or redirected, this
+library will put escape sequences there.
+
+Exact error underlining requires a nightly compiler; on stable the error is
+attributed to the whole string literal.  The API is unstable — see the
+[CHANGELOG](CHANGELOG.md).
+
 # Workspace
 This is a cargo workspace that contains the three parts of the "ee-conio" system published via [crates.io].<br/>
 
