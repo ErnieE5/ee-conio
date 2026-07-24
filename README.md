@@ -22,6 +22,10 @@ More than color: cursor movement and screen clearing share the same syntax
 (`~[cls]`, `~[X5;5H]`), and `ctransform!` rewrites literals anywhere, not just
 inside print calls.
 
+The `~[...]` notation predates this crate by more than a decade — see
+[HISTORY.md](HISTORY.md) for how it evolved through bash, Lua, and Python
+before landing here.
+
 # Workspace
 This is a cargo workspace that contains the four crates of the "ee-conio" system published via [crates.io].<br/>
 
