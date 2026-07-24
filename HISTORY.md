@@ -100,9 +100,10 @@ Looking back across the ports, the trajectory is a pendulum:
 
 | Generation | Binding mechanism | When markup becomes escapes |
 |---|---|---|
-| bash / PowerShell | host macro expansion | at interpolation, every echo |
+| bash | host macro expansion | at interpolation, every echo |
 | Lua | runtime rewriting (gsub chain) | every `cformat` call |
 | Python | runtime rewriting (ordered regex table) | every call, with policy kwargs |
+| PowerShell | host macro expansion | at interpolation, every write |
 | **Rust (ee-conio)** | **proc-macro rewriting of literals** | **once, at compile time** |
 
 ee-conio sheds nearly all of the Python generation's runtime surface —
