@@ -9,6 +9,10 @@ More than color, too: cursor movement and screen clearing use the same syntax
 (`~[cls]`, `~[X5;5H]`), and [ctransform!](ctransform) rewrites literals
 anywhere, not just inside print calls.
 
+The `~[...]` notation predates this crate by more than a decade — see
+[HISTORY][history] for how it evolved through bash, Lua, and Python before
+landing here.
+
 # Quick Start
 
 ```rust
@@ -250,6 +254,7 @@ any release; see the [CHANGELOG][changelog].
 
 [no_color]:<https://no-color.org/>
 [changelog]:<https://github.com/ErnieE5/ee-conio/blob/main/CHANGELOG.md>
+[history]:<https://github.com/ErnieE5/ee-conio/blob/main/HISTORY.md>
 [`proc_macro2::Literal::subspan`]:<https://docs.rs/proc-macro2/latest/proc_macro2/struct.Literal.html#method.subspan>
 
 
